@@ -19,6 +19,62 @@ export const IconMenuExplorer: SvgComponent = (props) => {
     );
 };
 
+export const IconFolder: SvgComponent = (props) => {
+    return (
+        <MuiSvgIcon {...props} viewBox="0 0 16 16" fill="none">
+            <path d="M2.66659 13.3334C2.29992 13.3334 1.98603 13.2029 1.72492 12.9417C1.46381 12.6806 1.33325 12.3667 1.33325 12.0001V4.00008C1.33325 3.63341 1.46381 3.31953 1.72492 3.05841C1.98603 2.7973 2.29992 2.66675 2.66659 2.66675H6.66658L7.99992 4.00008H13.3333C13.6999 4.00008 14.0138 4.13064 14.2749 4.39175C14.536 4.65286 14.6666 4.96675 14.6666 5.33341V12.0001C14.6666 12.3667 14.536 12.6806 14.2749 12.9417C14.0138 13.2029 13.6999 13.3334 13.3333 13.3334H2.66659Z" />
+        </MuiSvgIcon>
+    );
+};
+
+export const IconEdit: SvgComponent = (props) => {
+    return (
+        <MuiSvgIcon {...props} viewBox="0 0 24 22" fill="none">
+            <path d="M8.32062 21H22.5125" stroke={'#043E35'} strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+            <path
+                d="M16.9734 1.72567C17.1972 1.496 17.4648 1.31347 17.7602 1.18884C18.0557 1.06421 18.3731 1 18.6938 1C19.0145 1 19.3319 1.06421 19.6274 1.18884C19.9228 1.31347 20.1904 1.496 20.4142 1.72567C20.8709 2.19445 21.1265 2.82307 21.1265 3.47758C21.1265 4.13208 20.8709 4.76071 20.4142 5.22948L6.07619 19.8313L1.48749 20.9993L2.6344 16.3296L16.9734 1.72567Z"
+                fill="#043E35"
+                stroke="#043E35"
+                strokeWidth="1.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
+        </MuiSvgIcon>
+    );
+};
+
+export const IconChevonLeft: SvgComponent = (props) => {
+    return (
+        <MuiSvgIcon {...props} viewBox="0 0 18 25" fill="none">
+            <path d="M15.4883 1.55264L18 4.05942C17.4271 4.16936 16.8984 4.45522 16.4577 4.89501L8.68052 12.6572L16.4577 20.4194C16.8984 20.8592 17.4271 21.1231 18 21.255L15.4883 23.7618C14.2986 24.9492 12.3378 24.9492 11.126 23.7618L2.96222e-06 12.6572L11.126 1.55264C12.3378 0.365222 14.2766 0.365222 15.4883 1.55264Z" />
+        </MuiSvgIcon>
+    );
+};
+export const IconChevonRight: SvgComponent = (props) => {
+    return (
+        <MuiSvgIcon {...props} viewBox="0 0 18 25" fill="none">
+            <path d="M2.51167 23.7618L4.46765e-05 21.255C0.572871 21.1451 1.10163 20.8592 1.54227 20.4194L9.31948 12.6572L1.54227 4.89504C1.10164 4.45525 0.572874 4.19138 4.71876e-05 4.05945L2.51167 1.55267C3.70138 0.365254 5.66221 0.365254 6.87396 1.55267L18 12.6572L6.87396 23.7618C5.66221 24.9492 3.72341 24.9492 2.51167 23.7618Z" />
+        </MuiSvgIcon>
+    );
+};
+
+export const IconDownload: SvgComponent = (props) => {
+    return (
+        <MuiSvgIcon {...props} viewBox="0 0 12 12" fill="none">
+            <g>
+                <path
+                    d="M11.5 7.8335V10.2775C11.5 10.6016 11.3713 10.9124 11.1421 11.1416C10.9129 11.3708 10.6021 11.4995 10.278 11.4995H1.722C1.56152 11.4995 1.40262 11.4679 1.25436 11.4065C1.1061 11.3451 0.971389 11.2551 0.857915 11.1416C0.744442 11.0281 0.65443 10.8934 0.593019 10.7451C0.531608 10.5969 0.5 10.438 0.5 10.2775V7.8335"
+                    // stroke="#2C978F"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                />
+                <path d="M9.05509 4.7775L6.00009 7.8335L2.94409 4.7775" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M6 7.8335V0.500496" strokeLinecap="round" strokeLinejoin="round" />
+            </g>
+        </MuiSvgIcon>
+    );
+};
+
 export const IconInvestor: SvgComponent = (props) => {
     return (
         <MuiSvgIcon
@@ -75,7 +131,14 @@ export const IconCommittee: SvgComponent = (props) => {
 
 export const IconSpinLoading: SvgComponent = (props) => {
     return (
-        <MuiSvgIcon {...props} sx={{ mx: 'auto', display: 'block', shapeRendering: 'auto', color: 'primary.light', ...props.sx }} viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+        <MuiSvgIcon
+            {...props}
+            xmlns="http://www.w3.org/2000/svg"
+            xmlnsXlink="http://www.w3.org/1999/xlink"
+            sx={{ mx: 'auto', display: 'block', shapeRendering: 'auto', color: 'primary.main', ...props.sx }}
+            viewBox="0 0 100 100"
+            preserveAspectRatio="xMidYMid"
+        >
             <g transform="rotate(0 50 50)">
                 <rect x="45" y="8.5" rx="5" ry="5.5" width="10" height="11">
                     <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="-0.9166666666666666s" repeatCount="indefinite" />
@@ -135,6 +198,36 @@ export const IconSpinLoading: SvgComponent = (props) => {
                 <rect x="45" y="8.5" rx="5" ry="5.5" width="10" height="11">
                     <animate attributeName="opacity" values="1;0" keyTimes="0;1" dur="1s" begin="0s" repeatCount="indefinite" />
                 </rect>
+            </g>
+        </MuiSvgIcon>
+    );
+};
+
+export const IconRemove: SvgComponent = (props) => {
+    return (
+        <MuiSvgIcon {...props} width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g id="Group 21068">
+                <circle id="Ellipse 742" cx="18" cy="18" r="18" fill="#CFE9E4" />
+                <path id="Line 10" d="M10 18H26" stroke="#2C978F" stroke-width="2" stroke-linecap="round" />
+            </g>
+        </MuiSvgIcon>
+    );
+};
+
+export const IconCloud: SvgComponent = (props) => {
+    return (
+        <MuiSvgIcon {...props} width="40" height="41" viewBox="0 0 40 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g id="ant-design:cloud-upload-outlined">
+                <path
+                    id="Vector"
+                    d="M20.246 18.4297C20.2167 18.3924 20.1794 18.3622 20.1368 18.3414C20.0941 18.3206 20.0473 18.3098 19.9999 18.3098C19.9525 18.3098 19.9057 18.3206 19.863 18.3414C19.8204 18.3622 19.783 18.3924 19.7538 18.4297L15.3788 23.9649C15.3427 24.0109 15.3203 24.0662 15.3142 24.1244C15.3081 24.1826 15.3184 24.2413 15.3441 24.2939C15.3698 24.3464 15.4097 24.3907 15.4594 24.4216C15.509 24.4526 15.5664 24.4689 15.6249 24.4688H18.5116V33.9375C18.5116 34.1094 18.6522 34.25 18.8241 34.25H21.1679C21.3397 34.25 21.4804 34.1094 21.4804 33.9375V24.4727H24.3749C24.6366 24.4727 24.7811 24.1719 24.621 23.9688L20.246 18.4297Z"
+                    fill="#2C978F"
+                />
+                <path
+                    id="Vector_2"
+                    d="M31.6953 14.8242C29.9063 10.1055 25.3477 6.75 20.0078 6.75C14.668 6.75 10.1094 10.1016 8.32031 14.8203C4.97266 15.6992 2.5 18.75 2.5 22.375C2.5 26.6914 5.99609 30.1875 10.3086 30.1875H11.875C12.0469 30.1875 12.1875 30.0469 12.1875 29.875V27.5312C12.1875 27.3594 12.0469 27.2188 11.875 27.2188H10.3086C8.99219 27.2188 7.75391 26.6953 6.83203 25.7461C5.91406 24.8008 5.42578 23.5273 5.46875 22.207C5.50391 21.1758 5.85547 20.207 6.49219 19.3906C7.14453 18.5586 8.05859 17.9531 9.07422 17.6836L10.5547 17.2969L11.0977 15.8672C11.4336 14.9766 11.9023 14.1445 12.4922 13.3906C13.0745 12.6434 13.7643 11.9865 14.5391 11.4414C16.1445 10.3125 18.0352 9.71484 20.0078 9.71484C21.9805 9.71484 23.8711 10.3125 25.4766 11.4414C26.2539 11.9883 26.9414 12.6445 27.5234 13.3906C28.1133 14.1445 28.582 14.9805 28.918 15.8672L29.457 17.293L30.9336 17.6836C33.0508 18.2539 34.5312 20.1797 34.5312 22.375C34.5312 23.668 34.0273 24.8867 33.1133 25.8008C32.665 26.2517 32.1318 26.6092 31.5444 26.8526C30.957 27.096 30.3272 27.2204 29.6914 27.2188H28.125C27.9531 27.2188 27.8125 27.3594 27.8125 27.5312V29.875C27.8125 30.0469 27.9531 30.1875 28.125 30.1875H29.6914C34.0039 30.1875 37.5 26.6914 37.5 22.375C37.5 18.7539 35.0352 15.707 31.6953 14.8242Z"
+                    fill="#2C978F"
+                />
             </g>
         </MuiSvgIcon>
     );
