@@ -232,3 +232,18 @@ export const IconCloud: SvgComponent = (props) => {
         </MuiSvgIcon>
     );
 };
+
+export const IconPortfolio: SvgComponent = (props) => {
+    return (
+        <MuiSvgIcon {...props} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g id="ChartPie">
+                <path
+                    id="Vector"
+                    d="M2.40002 12.0004C2.40002 9.45431 3.41145 7.01252 5.2118 5.21217C7.01215 3.41182 9.45395 2.40039 12 2.40039V12.0004H21.6C21.6 14.5465 20.5886 16.9883 18.7882 18.7886C16.9879 20.589 14.5461 21.6004 12 21.6004C9.45395 21.6004 7.01215 20.589 5.2118 18.7886C3.41145 16.9883 2.40002 14.5465 2.40002 12.0004Z"
+                    fill="#2C978F"
+                />
+                <path id="Vector_2" d="M14.4 2.70312C16.0604 3.13328 17.5755 3.99966 18.7883 5.21247C20.0011 6.42528 20.8675 7.94037 21.2976 9.60073H14.4V2.70312Z" fill="#2C978F" />
+            </g>
+        </MuiSvgIcon>
+    );
+};
