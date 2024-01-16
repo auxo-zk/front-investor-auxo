@@ -135,6 +135,7 @@ export const useWalletFunction = () => {
 
 export function InitWalletData() {
     const { connectWallet, updateLoginStatus } = useWalletFunction();
+    const { userAddress } = useWalletData();
     useEffect(() => {
         async function fetch() {
             if (localStorage.getItem(LocalStorageKey.IsConnected) == LocalStorageValue.IsConnectedYes) {
@@ -145,6 +146,19 @@ export function InitWalletData() {
         fetch();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    useEffect(() => {
+        if (userAddress) {
+            window.mina?.on('accountsChanged', (accounts: string[]) => {
+                localStorage.removeItem(LocalStorageKey.AccessToken);
+                connectWallet();
+            });
+            return () => {
+                window.mina?.on('accountsChanged', (accounts: string[]) => {});
+            };
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [userAddress]);
     return null;
 }
 
