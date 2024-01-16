@@ -16,7 +16,7 @@ export default function Layout({ children }: { children: ReactNode }) {
     return (
         <>
             <Head>
-                <title>Auxo App</title>
+                <title>Auxo Investors Platform</title>
                 <meta name="description" content="auxo app" />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
                 <meta name="language" content="English" />
