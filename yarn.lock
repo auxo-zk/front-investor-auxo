@@ -7,6 +7,13 @@
   resolved "https://registry.yarnpkg.com/@aashutoshrathi/word-wrap/-/word-wrap-1.2.6.tgz#bd9154aec9983f77b3a034ecaa015c2e4201f6cf"
   integrity sha512-1Yjs2SvM8TflER/OD3cOjhWWOZb58A2t7wpE2S9XfBYTiIl+XFhQG2bjy4Pu1I+EAlCNUzRDYDdFwFYUKvXcIA==
 
+"@auxo-dev/auxo-libs@0.3.5", "@auxo-dev/auxo-libs@^0.3.5":
+  version "0.3.5"
+  resolved "https://registry.yarnpkg.com/@auxo-dev/auxo-libs/-/auxo-libs-0.3.5.tgz#ba8cbc04a188413f08fd61a7a838f026f724450c"
+  integrity sha512-H8vXMoJ2cHFQj7rugBY6q9ScEfOyZ6Z/Q6j7O88dZzcBQZNtxV+FsyWrIbfBs/n/qnS2UHdh8r7fKGsmfOy3pQ==
+  dependencies:
+    o1js "0.15.1"
+
 "@auxo-dev/auxo-libs@^0.3.4":
   version "0.3.4"
   resolved "https://registry.yarnpkg.com/@auxo-dev/auxo-libs/-/auxo-libs-0.3.4.tgz#7a12fcf26246a5f66370697784ea2c74e091a0c8"
@@ -14,13 +21,32 @@
   dependencies:
     o1js "^0.14.1"
 
-"@auxo-dev/dkg@^0.2.5":
-  version "0.2.5"
-  resolved "https://registry.yarnpkg.com/@auxo-dev/dkg/-/dkg-0.2.5.tgz#eeb9377a4552eb64237b1384691a5fecdec59af6"
-  integrity sha512-EqHIlAF78WeUfmVrRjsYwWb4uGfOP0isHFJcZkYajsj3bcAesMKcf8PvmZ9VtEgsCdr5BkZYIzKxJfDWXaPdEQ==
+"@auxo-dev/dkg@0.2.12":
+  version "0.2.12"
+  resolved "https://registry.yarnpkg.com/@auxo-dev/dkg/-/dkg-0.2.12.tgz#0c85c485ee88b88a52d4403c92f208e34a113106"
+  integrity sha512-xzVoU+pV8+VwCJoFGwjyj3fJGduuRNmrkDcwRz0fzW9HaNyjfRGCtb+mfdJMiPNWd5EBT9mkSVZNfb5AB8w4kA==
   dependencies:
-    "@auxo-dev/auxo-libs" "^0.3.4"
-    o1js "^0.14.2"
+    "@auxo-dev/auxo-libs" "^0.3.5"
+    axios "^1.6.5"
+    o1js "0.15.1"
+
+"@auxo-dev/dkg@^0.2.13":
+  version "0.2.13"
+  resolved "https://registry.yarnpkg.com/@auxo-dev/dkg/-/dkg-0.2.13.tgz#5e78bd25520dfeb8802645d553fb0c0d502864cc"
+  integrity sha512-+xNpB5iHwS5neU1kAki5Z3oQoULuhFuAxj43dP2/OsT1Opw0RTbGqkpESyeZzmuXsoLuhs9Jo75bCwdn6jiw3A==
+  dependencies:
+    "@auxo-dev/auxo-libs" "^0.3.5"
+    axios "^1.6.5"
+    o1js "0.15.1"
+
+"@auxo-dev/platform@^0.1.5":
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/@auxo-dev/platform/-/platform-0.1.5.tgz#fdbf94698b9754c819d6746659edbdee53a88ca3"
+  integrity sha512-90ke0APOeMGyWNWJwII7YayNYC7Jf76YkxSYCwIPRTZlidfZ7aey6Jc10DUrqRc8NgH2mVCxnR4Q23jP/J32uA==
+  dependencies:
+    "@auxo-dev/auxo-libs" "0.3.5"
+    "@auxo-dev/dkg" "0.2.12"
+    o1js "0.15.1"
 
 "@babel/code-frame@^7.0.0":
   version "7.23.5"
@@ -846,6 +872,15 @@ axios@^1.6.2:
     form-data "^4.0.0"
     proxy-from-env "^1.1.0"
 
+axios@^1.6.5:
+  version "1.6.5"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-1.6.5.tgz#2c090da14aeeab3770ad30c3a1461bc970fb0cd8"
+  integrity sha512-Ii012v05KEVuUoFWmMW/UQv9aRIc3ZwkWDcM+h5Il8izZCtRVpDUfwpoFf7eOtajT3QiGR4yDUx7lPqHJULgbg==
+  dependencies:
+    follow-redirects "^1.15.4"
+    form-data "^4.0.0"
+    proxy-from-env "^1.1.0"
+
 axobject-query@^3.2.1:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/axobject-query/-/axobject-query-3.2.1.tgz#39c378a6e3b06ca679f29138151e45b2b32da62a"
@@ -1555,6 +1590,11 @@ follow-redirects@^1.15.0:
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.3.tgz#fe2f3ef2690afce7e82ed0b44db08165b207123a"
   integrity sha512-1VzOtuEM8pC9SFU1E+8KfTjZyMztRsgEfwQl44z8A25uy13jSzTj6dyK2Df52iV0vgHCfBwLhDWevLn95w5v6Q==
 
+follow-redirects@^1.15.4:
+  version "1.15.5"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.5.tgz#54d4d6d062c0fa7d9d17feb008461550e3ba8020"
+  integrity sha512-vSFWUON1B+yAw1VN4xMfxgn5fTUiaOzAJCKBwIIgT/+7CuGy9+r+5gITvP62j3RmaD5Ph65UaERdOSRGUzZtgw==
+
 for-each@^0.3.3:
   version "0.3.3"
   resolved "https://registry.yarnpkg.com/for-each/-/for-each-0.3.3.tgz#69b447e88a0a5d32c3e7084f3f1710034b21376e"
@@ -2233,7 +2273,20 @@ nprogress@^0.2.0:
   resolved "https://registry.yarnpkg.com/nprogress/-/nprogress-0.2.0.tgz#cb8f34c53213d895723fcbab907e9422adbcafb1"
   integrity sha512-I19aIingLgR1fmhftnbWWO3dXc0hSxqHQHQb3H8m+K3TnEn/iSeTZZOyvKXWqQESMwuUVnatlCnZdLBZZt2VSA==
 
-o1js@^0.14.1, o1js@^0.14.2:
+o1js@0.15.1:
+  version "0.15.1"
+  resolved "https://registry.yarnpkg.com/o1js/-/o1js-0.15.1.tgz#135a89099d8ff377a42cdda4aa9c01b9ded15316"
+  integrity sha512-B5GHUNfwOW3uc9clgCKktZDlZUJ2052QiG8ZF/VX8IK2lo4nZKe4C5wJOExgj1o+T0d/NKrBpLRS9LqIvDW6Ug==
+  dependencies:
+    blakejs "1.2.1"
+    cachedir "^2.4.0"
+    detect-gpu "^5.0.5"
+    isomorphic-fetch "^3.0.0"
+    js-sha256 "^0.9.0"
+    reflect-metadata "^0.1.13"
+    tslib "^2.3.0"
+
+o1js@^0.14.1:
   version "0.14.2"
   resolved "https://registry.yarnpkg.com/o1js/-/o1js-0.14.2.tgz#a7b26c832d0a329bccfab63137c5ce251026de79"
   integrity sha512-xU0NfbaOeooT5G7sQbVD0uDKpViLKwfVeCk+3U4rJk7HRq2KtHkdc7rlA0/86AtLUSRQpD5OZlJbVGW4daDvfQ==

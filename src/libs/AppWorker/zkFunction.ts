@@ -4,14 +4,18 @@ type Transaction = Awaited<ReturnType<typeof Mina.transaction>>;
 
 // ---------------------------------------------------------------------------------------
 
-import type { ZkApp } from '@auxo-dev/dkg';
+import type { ZkApp as ZkAppPlatform } from '@auxo-dev/platform';
+import type { ZkApp as ZkAppDkg } from '@auxo-dev/dkg';
 import { ArgumentTypes } from 'src/global.config';
 import { FileSystem } from 'src/states/cache';
 
 const state = {
-    TypeZkApp: null as null | typeof ZkApp,
-    CommitteeContract: null as null | ZkApp.Committee.CommitteeContract,
+    ZkAppPlatform: null as null | typeof ZkAppPlatform,
+    ZkAppDkg: null as null | typeof ZkAppDkg,
+    RequestContract: null as null | ZkAppDkg.Request.RequestContract,
+    FundingContract: null as null | ZkAppPlatform.Funding.FundingContract,
     transaction: null as null | Transaction,
+    complieDone: 0 as number,
 };
 
 // ---------------------------------------------------------------------------------------
@@ -23,61 +27,47 @@ export const zkFunctions = {
         Mina.setActiveInstance(Berkeley);
     },
     loadContract: async (args: {}) => {
-        const { ZkApp } = await import('@auxo-dev/dkg');
-        state.TypeZkApp = ZkApp;
+        const [{ ZkApp: ZkAppPlatform }, { ZkApp: ZkAppDkg }] = await Promise.all([import('@auxo-dev/platform'), import('@auxo-dev/dkg')]);
+        state.ZkAppPlatform = ZkAppPlatform;
+        state.ZkAppDkg = ZkAppDkg;
+    },
+    getPercentageComplieDone: async (args: {}) => {
+        return ((state.complieDone / 5) * 100).toFixed(0);
     },
     compileContract: async (args: { fileCache: any }) => {
-        await state.TypeZkApp!.DKG.UpdateKey.compile({ cache: FileSystem(args.fileCache) });
-        await state.TypeZkApp!.Round1.ReduceRound1.compile({ cache: FileSystem(args.fileCache) });
-        await state.TypeZkApp!.Round1.FinalizeRound1.compile({ cache: FileSystem(args.fileCache) });
-        await state.TypeZkApp!.Round2.ReduceRound2.compile({ cache: FileSystem(args.fileCache) });
-        await state.TypeZkApp!.Encryption.BatchEncryption.compile({ cache: FileSystem(args.fileCache) });
-        await state.TypeZkApp!.Round2.FinalizeRound2.compile({ cache: FileSystem(args.fileCache) });
-        await state.TypeZkApp!.Response.ReduceResponse.compile({ cache: FileSystem(args.fileCache) });
-        await state.TypeZkApp!.Encryption.BatchDecryption.compile({ cache: FileSystem(args.fileCache) });
-        await state.TypeZkApp!.Response.CompleteResponse.compile({ cache: FileSystem(args.fileCache) });
+        await state.ZkAppDkg!.Request.CreateRequest.compile({ cache: FileSystem(args.fileCache) }); // 1
+        console.log('complie CreateRequest done');
+        state.complieDone += 1;
 
-        await state.TypeZkApp!.Committee.CreateCommittee.compile({ cache: FileSystem(args.fileCache) });
-        console.log('complie Create Committee done');
+        await state.ZkAppDkg!.Request.RequestContract.compile({ cache: FileSystem(args.fileCache) }); // 2
+        console.log('complie RequestContract done');
+        state.complieDone += 1;
 
-        await state.TypeZkApp!.Request.CreateRequest.compile({ cache: FileSystem(args.fileCache) });
-        console.log('complie Create Request done');
+        await state.ZkAppPlatform!.Funding.CreateReduceProof.compile({ cache: FileSystem(args.fileCache) }); // 3
+        console.log('complie CreateReduceProof done');
+        state.complieDone += 1;
 
-        await state.TypeZkApp!.Committee.CommitteeContract.compile({ cache: FileSystem(args.fileCache) });
-        console.log('complie Committee Contract done');
+        await state.ZkAppPlatform!.Funding.CreateRollupProof.compile({ cache: FileSystem(args.fileCache) }); // 4
+        console.log('complie CreateRollupProof done');
+        state.complieDone += 1;
 
-        await state.TypeZkApp!.DKG.DKGContract.compile({ cache: FileSystem(args.fileCache) });
-        console.log('complie DKG Contract done');
-
-        await state.TypeZkApp!.Round1.Round1Contract.compile({ cache: FileSystem(args.fileCache) });
-        console.log('complie Round1 Contract done');
-
-        await state.TypeZkApp!.Round2.Round2Contract.compile({ cache: FileSystem(args.fileCache) });
-        console.log('complie Round2 Contract done');
-
-        await state.TypeZkApp!.Response.ResponseContract.compile({ cache: FileSystem(args.fileCache) });
-        console.log('complie Response Contract done');
-
-        await state.TypeZkApp!.Request.RequestContract.compile({ cache: FileSystem(args.fileCache) });
-        console.log('complie Request Contract done');
+        await state.ZkAppPlatform!.Funding.FundingContract.compile({ cache: FileSystem(args.fileCache) }); // 5
+        console.log('complie FundingContract done');
+        state.complieDone += 1;
     },
     fetchAccount: async (args: { publicKey58: string }) => {
         const publicKey = PublicKey.fromBase58(args.publicKey58);
         return await fetchAccount({ publicKey });
     },
-    initZkappInstance: async (args: { publicKey58: string }) => {
-        const publicKey = PublicKey.fromBase58(args.publicKey58);
-        state.CommitteeContract = new state.TypeZkApp!.Committee.CommitteeContract!(publicKey as any);
+
+    initZkappInstance: async (args: { fundingContract: string; requestContract: string }) => {
+        const fundingContractPub = PublicKey.fromBase58(args.fundingContract);
+        state.FundingContract = new state.ZkAppPlatform!.Funding.FundingContract!(fundingContractPub);
+
+        const requestContractPub = PublicKey.fromBase58(args.requestContract);
+        state.RequestContract = new state.ZkAppDkg!.Request.RequestContract!(requestContractPub);
     },
 
-    createCommittee: async (args: { sender: PublicKey; action: ZkApp.Committee.CommitteeAction }) => {
-        const transaction = await Mina.transaction(args.sender, () => {
-            state.CommitteeContract!.createCommittee({
-                ...args.action,
-            });
-        });
-        state.transaction = transaction;
-    },
     proveTransaction: async (args: {}) => {
         await state.transaction!.prove();
     },

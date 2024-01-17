@@ -3,7 +3,7 @@ import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typo
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import { postCreateCommittee } from 'src/services/services';
-import { useCommitteeContract } from 'src/states/contracts/committee';
+import { useAppContract } from 'src/states/contracts';
 import { useWalletData } from 'src/states/wallet';
 import { v4 as uuidv4 } from 'uuid';
 import { Field, PublicKey, fetchAccount, Mina } from 'o1js';
@@ -21,7 +21,7 @@ export type TDataPost = {
 
 export default function ModalCreateCommittee() {
     const { userAddress, userPubKey } = useWalletData();
-    const { workerClient } = useCommitteeContract();
+    const { workerClient } = useAppContract();
     const [dataPost, setDataPost] = useState<TDataPost>({ creator: userAddress, network: 'Berkery', t: 1, n: 1, members: [{ id: uuidv4(), address: '' }], name: '' });
 
     function changeDataPost(dataPost: Partial<TDataPost>) {

@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "@auxo-dev/auxo-libs": "^0.3.4",
-    "@auxo-dev/dkg": "^0.2.5",
+    "@auxo-dev/dkg": "^0.2.13",
+    "@auxo-dev/platform": "^0.1.5",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.14.18",
@@ -35,10 +36,10 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/react-slick": "^0.23.13",
     "@types/uuid": "^9.0.7",
     "eslint": "^8",
     "eslint-config-next": "14.0.2",
-    "typescript": "^5",
-    "@types/react-slick": "^0.23.13"
+    "typescript": "^5"
   }
 }
