@@ -17,12 +17,30 @@ export default class ZkAppWorkerClient {
         this.nextId = 0;
 
         this.worker.onmessage = (event: MessageEvent<ZkappWorkerReponse>) => {
-            this.promises[event.data.id].resolve(event.data.data);
-            delete this.promises[event.data.id];
+            if (event.data.status == 'failed') {
+                this.promises[event.data.id].reject(event.data.error);
+                delete this.promises[event.data.id];
+            } else {
+                this.promises[event.data.id].resolve(event.data.data);
+                delete this.promises[event.data.id];
+            }
         };
     }
     async loadWorker(): Promise<void> {
-        await sleep(5000);
+        await sleep(4000);
+    }
+
+    async sendTransaction(transactionJSON: string, memo?: string) {
+        const transactionFee = 0.1;
+        const { hash } = await window.mina!.sendTransaction({
+            transaction: transactionJSON,
+            feePayer: {
+                fee: transactionFee,
+                memo: memo || '',
+            },
+        });
+        const transactionLink = `https://berkeley.minaexplorer.com/transaction/${hash}`;
+        return { hash, transactionLink };
     }
 
     _call<Key extends TZkFuction>(fn: Key, args: ArgumentZkFuction<Key>): ReturenValueZkFunction<Key> {
@@ -33,7 +51,9 @@ export default class ZkAppWorkerClient {
             this.nextId++;
         }) as ReturenValueZkFunction<Key>;
     }
-
+    getPercentageComplieDone() {
+        return this._call('getPercentageComplieDone', {});
+    }
     setActiveInstanceToBerkeley() {
         return this._call('setActiveInstanceToBerkeley', {});
     }
@@ -47,13 +67,10 @@ export default class ZkAppWorkerClient {
     fetchAccount(publicKey58: string) {
         return this._call('fetchAccount', { publicKey58 });
     }
-    initZkappInstance(publicKey58: string) {
-        return this._call('initZkappInstance', { publicKey58 });
+    initZkappInstance(args: ArgumentZkFuction<'initZkappInstance'>) {
+        return this._call('initZkappInstance', args);
     }
 
-    createCommittee(sender: PublicKey, action: CommitteeAction) {
-        return this._call('createCommittee', { sender, action });
-    }
     proveTransaction() {
         return this._call('proveTransaction', {});
     }
