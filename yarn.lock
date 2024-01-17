@@ -2299,10 +2299,10 @@ o1js@^0.14.1:
     reflect-metadata "^0.1.13"
     tslib "^2.3.0"
 
-o1js@^0.15.0:
-  version "0.15.0"
-  resolved "https://registry.yarnpkg.com/o1js/-/o1js-0.15.0.tgz#25cb981bd45c48e0e207b4d1238040220c9ad0e1"
-  integrity sha512-KJSVD+sbrsq1O7jD2apOAa8P/BEBYhoYqGZEdiBtEF/NIw7JJGnUdkLV/E/OSX6X6Eo4fXRNLNAogcFPDhd41A==
+o1js@^0.15.2:
+  version "0.15.2"
+  resolved "https://registry.yarnpkg.com/o1js/-/o1js-0.15.2.tgz#04b8ccf84861c3151548ba77b26acc09bd7cb104"
+  integrity sha512-EbbXhbozScP3SzbFt0yA509cwcDC0mfa+6D0w2xzMYIerVOyUjzhSFQjy/dUJjQ8VZEffcuDedmIhVv+fqR7dw==
   dependencies:
     blakejs "1.2.1"
     cachedir "^2.4.0"
