@@ -1,4 +1,4 @@
-import { Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import Link from 'next/link';
 import React from 'react';
 import Card from 'src/components/Card/Card';
@@ -7,8 +7,8 @@ import { formatDate } from 'src/utils/format';
 
 export default function CardProject({ data }: { data: TProjectData }) {
     return (
-        <Card avatar={data.avatar}>
-            <Link href={`/explorer/projects/idprojectdadad`} style={{ textDecoration: 'none', color: 'unset' }}>
+        <Card avatar={data.avatar} banner={data.banner}>
+            <Link href={`/explorer/projects/${data.idProject}`} style={{ textDecoration: 'none', color: 'unset' }}>
                 <Typography variant="h6" fontWeight={600} mt={1}>
                     {data.name}
                 </Typography>
@@ -22,9 +22,11 @@ export default function CardProject({ data }: { data: TProjectData }) {
             <Typography variant="body3" mt={0.3} mb={1} color={'secondary.main'}>
                 $1.870.975.003
             </Typography> */}
-            <Typography mt={2} sx={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: '4', WebkitBoxOrient: 'vertical' }}>
-                {data.desc}
-            </Typography>
+            <Box
+                mt={2}
+                sx={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: '4', WebkitBoxOrient: 'vertical' }}
+                dangerouslySetInnerHTML={{ __html: data.desc }}
+            ></Box>
         </Card>
     );
 }

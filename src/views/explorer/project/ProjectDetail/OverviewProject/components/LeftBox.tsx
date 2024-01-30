@@ -2,12 +2,13 @@ import { Box, Typography } from '@mui/material';
 import React from 'react';
 import { FontInter } from 'src/assets/fonts';
 import { useProjectDetailData } from '../../state';
+import { KeyProjectInput } from 'src/services/project/api';
 
 export default function LeftBox() {
     const { overview } = useProjectDetailData();
     return (
         <Box sx={{ width: '100%' }}>
-            {/* <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                 <Box>
                     <Typography variant="h6">Raising Amount</Typography>
                     <Typography variant="h1" sx={{ fontFamily: FontInter.style.fontFamily, mt: 1 }}>
@@ -25,28 +26,30 @@ export default function LeftBox() {
                         </Typography>
                     </Box>
                 </Box>
-            </Box> */}
+            </Box>
 
-            <Typography variant="h6">Description</Typography>
-            <Typography>{overview.description}</Typography>
+            <Typography variant="h6" mt={6}>
+                Description
+            </Typography>
+            <Box dangerouslySetInnerHTML={{ __html: overview.description }}></Box>
 
             <Box sx={{ border: '1px solid', borderColor: 'background.primary', borderRadius: '12px', p: 3, mt: 3 }}>
                 <Typography variant="h4" mb={1}>
                     Problem Statement
                 </Typography>
-                <Typography>{overview.problemStatement}</Typography>
+                <Box dangerouslySetInnerHTML={{ __html: overview[KeyProjectInput.problemStatement] }}></Box>
             </Box>
             <Box sx={{ border: '1px solid', borderColor: 'background.primary', borderRadius: '12px', p: 3, mt: 3 }}>
                 <Typography variant="h4" mb={1}>
                     Solution
                 </Typography>
-                <Typography>{overview.solution}</Typography>
+                <Box dangerouslySetInnerHTML={{ __html: overview[KeyProjectInput.solution] }}></Box>
             </Box>
             <Box sx={{ border: '1px solid', borderColor: 'background.primary', borderRadius: '12px', p: 3, mt: 3 }}>
                 <Typography variant="h4" mb={1}>
                     Challenges & Risks{' '}
                 </Typography>
-                <Typography>{overview.challengesAndRisk}</Typography>
+                <Box dangerouslySetInnerHTML={{ __html: overview[KeyProjectInput.challengesAndRisks] }}></Box>
             </Box>
         </Box>
     );

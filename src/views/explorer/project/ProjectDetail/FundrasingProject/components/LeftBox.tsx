@@ -4,6 +4,7 @@ import CustomAccordion from 'src/components/CustomAccordion/CustomAccordion';
 import { formatDate, formatNumber } from 'src/utils/format';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import { useProjectDetailData } from '../../state';
+import { IconMina } from 'src/assets/svg/icon';
 
 export default function LeftBox() {
     const { fundrasing } = useProjectDetailData();
@@ -29,7 +30,7 @@ export default function LeftBox() {
                     <Typography variant="h6">Raised Amount</Typography>
                     <Box sx={{ display: 'flex', alignItems: 'flex-start', my: 2 }}>
                         <Avatar src="" alt="" sx={{ width: '36px', height: '36px', p: 0 }}>
-                            <MonetizationOnIcon sx={{ color: 'yellow', fontSize: '2.5rem' }} />
+                            <IconMina sx={{ fontSize: '2.5rem' }} />
                         </Avatar>
                         <Box sx={{ ml: 1 }}>
                             <Typography variant="h4" color={'text.secondary'}>
@@ -43,7 +44,7 @@ export default function LeftBox() {
                     <Typography variant="h6">Taget Amount</Typography>
                     <Box sx={{ display: 'flex', alignItems: 'flex-start', my: 2 }}>
                         <Avatar src="" alt="" sx={{ width: '36px', height: '36px', p: 0 }}>
-                            <MonetizationOnIcon sx={{ color: 'yellow', fontSize: '2.5rem' }} />
+                            <IconMina sx={{ fontSize: '2.5rem' }} />
                         </Avatar>
                         <Box sx={{ ml: 1 }}>
                             <Typography variant="h4" color={'text.secondary'}>
