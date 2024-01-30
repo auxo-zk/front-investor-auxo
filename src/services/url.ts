@@ -16,4 +16,10 @@ export const apiUrl = {
     projectDetail: `${BACKEND_BASE_URL}/v0/projects`,
     //profile
     getUserProfile: `${BACKEND_BASE_URL}/v0/builders`,
+
+    //campaign
+    getCampaign: `${BACKEND_BASE_URL}/v0/campaigns`,
+    getCampaignAll: `${BACKEND_BASE_URL}/v0/campaigns/all`,
+    campaignDetail: `${BACKEND_BASE_URL}/v0/campaigns`,
+    getParticipatingProjects: (campaignId: string) => `${BACKEND_BASE_URL}/v0/campaigns/${campaignId}/projects`,
 };

@@ -6,8 +6,8 @@ import { TCampaignData } from 'src/services/campaign/api';
 
 export default function CardCampaign({ data }: { data: TCampaignData }) {
     return (
-        <Card>
-            <Link href={`/explorer/campaigns/idcampaigndadad`} style={{ textDecoration: 'none', color: 'unset' }}>
+        <Card avatar={data.avatar} banner={data.banner}>
+            <Link href={`/explorer/campaigns/${data.campaignId}`} style={{ textDecoration: 'none', color: 'unset' }}>
                 <Typography variant="h6" fontWeight={600} mb={4}>
                     {data.name}
                 </Typography>

@@ -1,6 +1,6 @@
 import { Menu } from '@mui/icons-material';
 import { Box, Container } from '@mui/material';
-import { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ButtonConnectWallet from 'src/components/ButtonConnectWallet/ButtonConnectWallet';
 
 export default function Header({ headerHeight }: { headerHeight: string }) {
@@ -18,12 +18,14 @@ export default function Header({ headerHeight }: { headerHeight: string }) {
             setIsScrollDown(false);
         }
     };
+
     return (
         <Box
             sx={{
                 borderBottom: '1px solid',
-                background: isScrollDown ? '#fff' : '',
                 borderColor: 'divider',
+                background: isScrollDown ? '#fff' : '',
+                transition: 'background-color 0.1s',
                 height: headerHeight,
                 position: 'sticky',
                 top: '0',
@@ -33,7 +35,7 @@ export default function Header({ headerHeight }: { headerHeight: string }) {
             }}
         >
             <Container sx={{ height: headerHeight, display: 'flex', placeItems: 'center' }}>
-                <Box component={'label'} htmlFor="control-sidebar" sx={{ display: { xs: 'flex', lg: 'none' }, cursor: 'pointer', ml: 1 }}>
+                <Box component={'label'} htmlFor="control-sidebar" sx={{ display: { xs: 'flex', md: 'none' }, cursor: 'pointer', ml: 1 }}>
                     <Menu sx={{ fontSize: '28px' }} />
                 </Box>
                 <ButtonConnectWallet />

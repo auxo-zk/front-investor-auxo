@@ -1,5 +1,4 @@
-import { Dashboard } from '@mui/icons-material';
-import { IconCommittee, IconInvestor, IconMenuExplorer, IconOrganizer, IconPortfolio, IconUser } from 'src/assets/svg/icon';
+import { IconMenuExplorer, IconPortfolio } from 'src/assets/svg/icon';
 
 export const menu = [
     {
