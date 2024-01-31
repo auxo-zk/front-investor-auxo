@@ -76,9 +76,6 @@ export default function CampaignOverview({ data, idCampaign }: { data: TCampaign
             </Grid>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', placeItems: 'center' }} mt={5.5}>
                 <Typography variant="h6">Participating Projects</Typography>
-                <Button sx={{ minWidth: '184px' }} variant="contained" onClick={handleOpen}>
-                    Apply New
-                </Button>
             </Box>
             <Box mt={2.5}>
                 <ParticipatingProjects campaignId={idCampaign} />

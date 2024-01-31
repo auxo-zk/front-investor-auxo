@@ -56,7 +56,7 @@ export function numberWithCommas(x: number | string, delimiter = ','): string {
 
 export const sleep = (milisecond: number) => new Promise((resolve) => setTimeout(resolve, milisecond));
 
-export type TDateFormat = 'MMM dd, h:mm a' | 'MMM dd yyyy, h:mm a' | 'MMMM dd, YYY' | 'dd MMM yyyy';
+export type TDateFormat = 'MMM dd, h:mm a' | 'MMM dd yyyy, h:mm a' | 'MMMM dd, YYY' | 'dd MMM yyyy' | 'dd MMM';
 export const formatDate = (date: Date | string | number, type: TDateFormat) => {
     try {
         return fd(date, type);
