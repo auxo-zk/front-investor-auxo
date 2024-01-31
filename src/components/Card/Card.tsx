@@ -3,7 +3,7 @@ import React, { ReactNode } from 'react';
 import Img from '../Img/Img';
 import { imagePath } from 'src/constants/imagePath';
 
-export default function Card({ children, sx, avatar, banner }: { children: ReactNode; sx?: SxProps; avatar?: string; banner?: string }) {
+export default function Card({ children, sx, avatar, banner, subChildren }: { children: ReactNode; sx?: SxProps; avatar?: string; banner?: string; subChildren?: ReactNode }) {
     return (
         <Box sx={{ borderRadius: '12px', overflow: 'hidden', '&:hover': { boxShadow: 2 }, transition: 'box-shadow 0.3s', ...sx }}>
             {banner ? (
@@ -28,6 +28,7 @@ export default function Card({ children, sx, avatar, banner }: { children: React
                 )}
             </Box>
             <Box sx={{ px: 3, position: 'relative', minHeight: '100px', bgcolor: 'background.secondary', pt: '33px', pb: 3 }}>{children}</Box>
+            {subChildren}
         </Box>
     );
 }
