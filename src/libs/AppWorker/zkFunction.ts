@@ -1,4 +1,4 @@
-import { Mina, PublicKey, fetchAccount } from 'o1js';
+import { Field, Mina, PublicKey, fetchAccount } from 'o1js';
 
 type Transaction = Awaited<ReturnType<typeof Mina.transaction>>;
 
@@ -22,7 +22,12 @@ const state = {
 
 export const zkFunctions = {
     setActiveInstanceToBerkeley: async (args: {}) => {
-        const Berkeley = Mina.Network('https://proxy.berkeley.minaexplorer.com/graphql');
+        const MINAURL = 'https://api.minascan.io/node/berkeley/v1/graphql';
+        const ARCHIVEURL = 'https://api.minascan.io/archive/berkeley/v1/graphql';
+        const Berkeley = Mina.Network({
+            mina: MINAURL,
+            archive: ARCHIVEURL,
+        });
         console.log('Berkeley Instance Created');
         Mina.setActiveInstance(Berkeley);
     },
@@ -66,6 +71,21 @@ export const zkFunctions = {
 
         const requestContractPub = PublicKey.fromBase58(args.requestContract);
         state.RequestContract = new state.ZkAppDkg!.Request.RequestContract!(requestContractPub);
+    },
+
+    investProjects: async (args: { sender: string; campaignId: string; keyPub: string }) => {
+        const sender = PublicKey.fromBase58(args.sender);
+        await fetchAccount({ publicKey: sender });
+        const transaction = await Mina.transaction(sender, () => {
+            // state.FundingContract!.fund({
+            //     campaignId: Field(args.campaignId),
+            //     committeePublicKey: PublicKey.fromBase58(args.keyPub),
+            //     treasuryContract: null,
+            //     random: null,
+            //     secretVector: null,
+            // });
+        });
+        state.transaction = transaction;
     },
 
     proveTransaction: async (args: {}) => {

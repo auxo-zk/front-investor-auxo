@@ -9,9 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@auxo-dev/auxo-libs": "^0.3.5",
-    "@auxo-dev/dkg": "^0.2.18",
-    "@auxo-dev/platform": "^0.1.7",
+    "@auxo-dev/auxo-libs": "^0.3.6",
+    "@auxo-dev/dkg": "^0.2.19",
+    "@auxo-dev/platform": "^0.1.9",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.14.18",
@@ -24,7 +24,7 @@
     "jotai": "^2.5.1",
     "next": "14.0.2",
     "nextjs-progressbar": "^0.0.16",
-    "o1js": "^0.15.2",
+    "o1js": "^0.16.0",
     "react": "^18",
     "react-dom": "^18",
     "react-slick": "^0.29.0",
@@ -33,6 +33,7 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
+    "@swc-jotai/react-refresh": "^0.1.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
