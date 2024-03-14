@@ -1,6 +1,7 @@
 import { url } from 'inspector';
 import { apiUrl } from '../url';
 import axios from 'axios';
+import { getJwt } from '../project/api';
 
 export type TProfileData = {
     address: string;
@@ -21,4 +22,14 @@ export async function getUserProfile(address: string): Promise<TProfileData> {
         link: response.link || '',
         role: response.role || '',
     };
+}
+
+export async function verifyJwt() {
+    const jwt = getJwt();
+    await axios.get(apiUrl.checkJwt, {
+        headers: {
+            Authorization: `Bearer ${jwt}`,
+        },
+    });
+    return true;
 }
