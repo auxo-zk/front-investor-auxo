@@ -18,7 +18,7 @@ export async function getUserProfile(address: string): Promise<TProfileData> {
         address: response.address,
         name: response.name || '',
         description: response.description || '',
-        img: response.img || '',
+        img: response.img?.URL || '',
         link: response.link || '',
         role: response.role || '',
     };

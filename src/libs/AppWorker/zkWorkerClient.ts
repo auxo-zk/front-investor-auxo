@@ -3,6 +3,8 @@ import { ZkappWorkerReponse, ZkappWorkerRequest } from './worker';
 import { ArgumentZkFuction, ReturenValueZkFunction, TZkFuction } from './zkFunction';
 import { CommitteeAction } from '@auxo-dev/dkg/build/types/src/contracts/Committee';
 import { PublicKey } from 'o1js';
+import { chainInfo } from 'src/constants/chainInfo';
+import { NetworkId } from 'src/constants';
 
 export default class ZkAppWorkerClient {
     worker: Worker;
@@ -27,11 +29,10 @@ export default class ZkAppWorkerClient {
         };
     }
     async loadWorker(): Promise<void> {
-        await sleep(4000);
+        await sleep(4100);
     }
 
-    async sendTransaction(transactionJSON: string, memo?: string) {
-        const transactionFee = 0.1;
+    async sendTransaction(transactionJSON: string, memo?: string, transactionFee: number = 0.1) {
         const { hash } = await window.mina!.sendTransaction({
             transaction: transactionJSON,
             feePayer: {
@@ -39,7 +40,9 @@ export default class ZkAppWorkerClient {
                 memo: memo || '',
             },
         });
-        const transactionLink = `https://berkeley.minaexplorer.com/transaction/${hash}`;
+
+        const networkId = await this._call('getNetworkId', {});
+        const transactionLink = `${networkId ? chainInfo[networkId].explorerUrl : 'NULL'}/transaction/${hash}`;
         return { hash, transactionLink };
     }
 
@@ -54,8 +57,8 @@ export default class ZkAppWorkerClient {
     getPercentageComplieDone() {
         return this._call('getPercentageComplieDone', {});
     }
-    setActiveInstanceToBerkeley() {
-        return this._call('setActiveInstanceToBerkeley', {});
+    setActiveInstanceToNetwork(chainId: NetworkId) {
+        return this._call('setActiveInstanceToNetwork', { chainId });
     }
     loadContract() {
         console.log('Loading contract');

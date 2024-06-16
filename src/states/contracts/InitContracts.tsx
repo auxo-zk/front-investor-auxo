@@ -6,7 +6,7 @@ import { IconSpinLoading } from 'src/assets/svg/icon';
 
 export function InitContracts() {
     const { isFetching, filesCache } = useCacheContractData();
-    const { isInitWorker, workerClient } = useAppContract();
+    const { isInitWorker, workerClient, networkId } = useAppContract();
     const { complie, initClient } = useAppContractFunction();
     const [isCanCallComplie, setCanCallComplie] = useState<boolean>(false);
     useEffect(() => {
@@ -17,7 +17,7 @@ export function InitContracts() {
     useEffect(() => {
         const interval = setInterval(async () => {
             if (workerClient) {
-                await workerClient.setActiveInstanceToBerkeley();
+                await workerClient.setActiveInstanceToNetwork(networkId);
                 setCanCallComplie(true);
                 clearInterval(interval);
             }

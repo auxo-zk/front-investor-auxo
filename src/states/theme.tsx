@@ -199,8 +199,8 @@ export function getThemedComponent(theme: Theme): ThemeOptions {
                         },
 
                         '::-webkit-scrollbar-thumb': {
-                            // borderRadius: 10,
-                            background: '#D9D9D9',
+                            borderRadius: 10,
+                            background: '#D9D9D975',
                             cursor: 'pointer',
                             '&:hover': {
                                 background: '#d3d3d3',

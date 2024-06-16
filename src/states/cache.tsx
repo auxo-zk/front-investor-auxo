@@ -68,7 +68,10 @@ const cacheContractFile = [
 function fetchFiles(files: { name: string; type: string }[]) {
     return Promise.all(
         files.map((file) => {
-            return Promise.all([fetch(`/Caches/${file.name}.header`).then((res) => res.text()), fetch(`/Caches/${file.name}`).then((res) => res.text())]).then(([header, data]) => ({
+            return Promise.all([
+                fetch(`https://storage.googleapis.com/platform-caches/${file.name}.header`).then((res) => res.text()),
+                fetch(`https://storage.googleapis.com/platform-caches/${file.name}`).then((res) => res.text()),
+            ]).then(([header, data]) => ({
                 file,
                 header,
                 data,

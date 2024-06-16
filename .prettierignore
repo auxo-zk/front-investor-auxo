@@ -1,5 +1,4 @@
 **/*.svg
-package.json
 /node_modules
 /dist
 /build

@@ -8,6 +8,8 @@ import type { ZkApp as ZkAppPlatform } from '@auxo-dev/platform';
 import type { ZkApp as ZkAppDkg } from '@auxo-dev/dkg';
 import { ArgumentTypes } from 'src/global.config';
 import { FileSystem } from 'src/states/cache';
+import { NetworkId } from 'src/constants';
+import { chainInfo } from 'src/constants/chainInfo';
 
 const state = {
     ZkAppPlatform: null as null | typeof ZkAppPlatform,
@@ -16,20 +18,24 @@ const state = {
     FundingContract: null as null | ZkAppPlatform.Funding.FundingContract,
     transaction: null as null | Transaction,
     complieDone: 0 as number,
+    networkId: null as null | NetworkId,
 };
 
 // ---------------------------------------------------------------------------------------
 
 export const zkFunctions = {
-    setActiveInstanceToBerkeley: async (args: {}) => {
-        const MINAURL = 'https://api.minascan.io/node/berkeley/v1/graphql';
-        const ARCHIVEURL = 'https://api.minascan.io/archive/berkeley/v1/graphql';
-        const Berkeley = Mina.Network({
-            mina: MINAURL,
-            archive: ARCHIVEURL,
+    setActiveInstanceToNetwork: async (args: { chainId: NetworkId }) => {
+        const networkInfo = chainInfo[args.chainId];
+        const Network = Mina.Network({
+            mina: networkInfo.rpcUrl,
+            archive: networkInfo.archiveUrl,
         });
-        console.log('Berkeley Instance Created');
-        Mina.setActiveInstance(Berkeley);
+        console.log(`${networkInfo.name} Instance Created`);
+        Mina.setActiveInstance(Network);
+        state.networkId = args.chainId;
+    },
+    getNetworkId: async (args: {}) => {
+        return state.networkId;
     },
     loadContract: async (args: {}) => {
         const [{ ZkApp: ZkAppPlatform }, { ZkApp: ZkAppDkg }] = await Promise.all([import('@auxo-dev/platform'), import('@auxo-dev/dkg')]);

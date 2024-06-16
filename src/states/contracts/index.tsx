@@ -1,17 +1,20 @@
 import { atom, useAtom, useAtomValue } from 'jotai';
 import ZkAppWorkerClient from 'src/libs/AppWorker/zkWorkerClient';
 import { toast } from 'react-toastify';
+import { NetworkId } from 'src/constants';
 
 export type TContractData = {
     workerClient: ZkAppWorkerClient | null;
     isInitWorker: boolean;
     isLoading: boolean;
+    networkId: NetworkId;
 };
 
 const initData: TContractData = {
     workerClient: null,
     isInitWorker: true,
     isLoading: false,
+    networkId: NetworkId.AuxoDevNet,
 };
 
 const committeeContract = atom<TContractData>(initData);
