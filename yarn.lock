@@ -25,10 +25,10 @@
     "@auxo-dev/auxo-libs" "0.5.7"
     o1js "0.18.0"
 
-"@auxo-dev/platform@^0.2.10":
-  version "0.2.13"
-  resolved "https://registry.yarnpkg.com/@auxo-dev/platform/-/platform-0.2.13.tgz#32d8bb2cfcd8231904a0c41817d864014dc47e59"
-  integrity sha512-olSVhLW4NDMuF60okzwh4Y+HYt8bH4lCYva8WV033maTT0NrSQzD21NAzF5wINy1vP/6SpC6BCH6UWzL9XKJkA==
+"@auxo-dev/platform@0.2.10":
+  version "0.2.10"
+  resolved "https://registry.yarnpkg.com/@auxo-dev/platform/-/platform-0.2.10.tgz#13629c7bcbcbde41ea301e54c2a3ed3f81958456"
+  integrity sha512-YUbjqz2SsTXPFnehkeldFFAHIzbkhRtHv3zo2NfgxI/6xArEgRo4LQoO6MFi5h/h3wi/yx8VzNUdMO1YOHFDbw==
   dependencies:
     "@auxo-dev/auxo-libs" "0.5.7"
     "@auxo-dev/dkg" "0.4.10"
@@ -704,9 +704,9 @@
   integrity sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==
 
 "@types/node@^20":
-  version "20.14.5"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.14.5.tgz#fe35e3022ebe58b8f201580eb24e1fcfc0f2487d"
-  integrity sha512-aoRR+fJkZT2l0aGOJhuA8frnCSoNX6W7U2mpNq63+BxBIj5BQFt8rHy627kijCmm63ijdSdwvGgpUsU6MBsZZA==
+  version "20.14.6"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.14.6.tgz#f3c19ffc98c2220e18de259bb172dd4d892a6075"
+  integrity sha512-JbA0XIJPL1IiNnU7PFxDXyfAwcwVVrOoqyzzyQTyMeVhBzkJVMSkC1LlVsRQ2lpqiY4n6Bb9oCS6lzDKVQxbZw==
   dependencies:
     undici-types "~5.26.4"
 

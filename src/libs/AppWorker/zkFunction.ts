@@ -20,7 +20,7 @@ const state = {
     RequestContract: null as null | ZkAppDkg.Request.RequestContract,
     ProjectContract: null as null | ZkAppPlatform.Project.ProjectContract,
     ParticipationContract: null as null | ZkAppPlatform.Participation.ParticipationContract,
-    NullifierContract: null as null | ZkAppPlatform.Nullifier.NullifierContract,
+    NullifierContract: null as null | ZkAppPlatform.Commitment.CommitmentContract,
     VestingContract: null as null | ZkAppPlatform.Vesting.VestingContract,
     TreasuryContract: null as null | ZkAppPlatform.TreasuryManager.TreasuryManagerContract,
     CampaignContract: null as null | ZkAppPlatform.Campaign.CampaignContract,
@@ -122,11 +122,11 @@ export const zkFunctions = {
         console.log('17. compile TreasuryManagerContract done');
         state.compileDone += 1;
 
-        await state.ZkAppPlatform!.Nullifier.RollupNullifier.compile({ cache: FileSystem(args.fileCache) }); // 18
+        await state.ZkAppPlatform!.Commitment.RollupCommitment.compile({ cache: FileSystem(args.fileCache) }); // 18
         console.log('18. compile RollupNullifier done');
         state.compileDone += 1;
 
-        await state.ZkAppPlatform!.Nullifier.NullifierContract.compile({ cache: FileSystem(args.fileCache) }); // 19
+        await state.ZkAppPlatform!.Commitment.CommitmentContract.compile({ cache: FileSystem(args.fileCache) }); // 19
         console.log('19. compile NullifierContract done');
         state.compileDone += 1;
 
@@ -173,7 +173,7 @@ export const zkFunctions = {
         state.TreasuryContract = new state.ZkAppPlatform!.TreasuryManager.TreasuryManagerContract!(treasuryContractPub);
 
         const nullifierContractPub = PublicKey.fromBase58(args.nullifierContract);
-        state.NullifierContract = new state.ZkAppPlatform!.Nullifier.NullifierContract!(nullifierContractPub);
+        state.NullifierContract = new state.ZkAppPlatform!.Commitment.CommitmentContract!(nullifierContractPub);
 
         const vestingContractPub = PublicKey.fromBase58(args.vestingContract);
         state.VestingContract = new state.ZkAppPlatform!.Vesting.VestingContract!(vestingContractPub);
