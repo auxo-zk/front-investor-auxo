@@ -7,7 +7,7 @@ import { IconSpinLoading } from 'src/assets/svg/icon';
 export function InitContracts() {
     const { isFetching, filesCache } = useCacheContractData();
     const { isInitWorker, workerClient, networkId } = useAppContract();
-    const { complie, initClient } = useAppContractFunction();
+    const { compile, initClient } = useAppContractFunction();
     const [isCanCallComplie, setCanCallComplie] = useState<boolean>(false);
     useEffect(() => {
         initClient();
@@ -29,7 +29,7 @@ export function InitContracts() {
 
     useEffect(() => {
         if (!isFetching && filesCache && isCanCallComplie) {
-            complie(filesCache);
+            compile(filesCache);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isFetching, filesCache, isCanCallComplie]);
