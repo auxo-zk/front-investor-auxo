@@ -41,15 +41,7 @@ export default function RightBox() {
                         Team Member
                     </Typography>
                     {overview.member.map((member, index) => {
-                        return (
-                            <StackTeamMember
-                                key={index}
-                                sx={{ mb: 1 }}
-                                name={member.name}
-                                urlImage="https://pbs.twimg.com/profile_images/1732964434363248640/UtVeR8Io_200x200.jpg"
-                                desc={member.role}
-                            />
-                        );
+                        return <StackTeamMember key={index} sx={{ mb: 1 }} name={member.name} urlImage="" desc={member.role} />;
                     })}
                 </Box>
             </Box>
