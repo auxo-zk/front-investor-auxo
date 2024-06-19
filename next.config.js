@@ -2,13 +2,7 @@
 const nextConfig = {
     reactStrictMode: false,
     images: {
-        remotePatterns: [
-            { hostname: 'storage.googleapis.com' },
-            { hostname: 'trunganhmedia.com' },
-            { hostname: 'www.aipromptsgalaxy.com' },
-            { hostname: 'bitnews.sgp1.digitaloceanspaces.com' },
-            { hostname: 'pbs.twimg.com' },
-        ],
+        remotePatterns: [{ hostname: 'storage.googleapis.com' }],
     },
     async redirects() {
         return [

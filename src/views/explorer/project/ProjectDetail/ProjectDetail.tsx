@@ -9,7 +9,7 @@ import { useState } from 'react';
 import FundRaisingProject from './FundrasingProject/FundRaising';
 import OverviewProject from './OverviewProject/OverviewProject';
 export default function ProjectDetail() {
-    const { name, avatar, banner, date, fundrasing, overview } = useProjectDetailData();
+    const { name, avatar, banner, date, overview } = useProjectDetailData();
     const [selected, setSelected] = useState<number>(0);
     return (
         <Container sx={{ pb: 5 }}>

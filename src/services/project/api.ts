@@ -1,11 +1,12 @@
 import axios from 'axios';
 import { apiUrl } from '../url';
 import { LocalStorageKey } from 'src/constants';
+import { TFileSaved } from '../type';
 
 export enum KeyProjectInput {
     'solution' = 'solution',
-    'problemStatement' = 'problem-statement',
-    'challengesAndRisks' = 'challenges-and-risks',
+    'problemStatement' = 'problemStatement',
+    'challengesAndRisks' = 'challengesAndRisk',
 }
 //PROJECT LIST ************************************************************************************************************************************************
 export type TProjectData = {
@@ -45,16 +46,19 @@ export async function getAddressProject(address: string): Promise<TProjectData[]
 }
 
 //PROJECT DETAIL ************************************************************************************************************************************************
+export type TMemberData = {
+    name: string;
+    role: string;
+    link: string;
+    publicKey: string;
+};
+
 export type TProjectOverview = {
     raisingAmount?: number;
     campaignAmount?: number;
     description: string;
-    documents: string[];
-    member: {
-        name: string;
-        role: string;
-        link: string;
-    }[];
+    documents: TFileSaved[];
+    member: TMemberData[];
 } & {
     [key in KeyProjectInput]: string;
 };
@@ -76,7 +80,6 @@ export type TProjectDetail = {
     banner: string;
     date: string;
     overview: TProjectOverview;
-    fundrasing: TProjectFundRaising;
 };
 export async function getProjectDetail(projectId: string): Promise<TProjectDetail> {
     const response = (await axios.get(apiUrl.projectDetail + `/${projectId}`)).data;
@@ -85,31 +88,10 @@ export async function getProjectDetail(projectId: string): Promise<TProjectDetai
         avatar: response?.ipfsData?.avatarImage || '',
         banner: response?.ipfsData?.coverImage || '',
         date: new Date().toLocaleDateString(),
-        fundrasing: {
-            raisedAmount: 0,
-            targetAmount: 0,
-            raiseInfo: [
-                {
-                    budgetRequired: '30.000 MINA',
-                    etc: new Date().toLocaleDateString(),
-                    scope: '1',
-                },
-                {
-                    budgetRequired: '30.000 MINA',
-                    etc: new Date().toLocaleDateString(),
-                    scope: '2',
-                },
-                {
-                    budgetRequired: '30.000 MINA',
-                    etc: new Date().toLocaleDateString(),
-                    scope: '3',
-                },
-            ],
-            documents: [],
-        },
+
         overview: {
             description: response?.ipfsData?.description || '',
-            documents: [],
+            documents: response?.ipfsData?.documents || [],
             member: response?.ipfsData?.members || [],
             campaignAmount: 0,
             raisingAmount: 0,

@@ -63,6 +63,10 @@ export default function ParticipatingProjects({ campaignId }: { campaignId: stri
     }
     return (
         <Box>
+            <Typography variant="h6" mb={3}>
+                Participating Projects ({listProject.length})
+            </Typography>
+
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, placeItems: 'center', mb: 3 }}>
                 <TextField variant="outlined" color="secondary" label="Search project" name="project_name" sx={{ width: '100%', maxWidth: '305px' }} />
                 <Box ml={'auto'} sx={{ display: 'flex', placeItems: 'center', gap: 1, flexWrap: 'wrap' }}>

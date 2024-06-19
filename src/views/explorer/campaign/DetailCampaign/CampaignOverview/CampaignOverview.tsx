@@ -1,8 +1,8 @@
-import { Avatar, Box, Button, Grid, TextField, Typography } from '@mui/material';
-import { ReactNode, useMemo } from 'react';
-import { IconChecked, IconDone } from 'src/assets/svg/icon';
+import { Box, Button, Grid, Typography } from '@mui/material';
+import { useMemo } from 'react';
+import { IconDone } from 'src/assets/svg/icon';
 
-import { TCampaignData, TCampaignDetail } from 'src/services/campaign/api';
+import { TCampaignDetail } from 'src/services/campaign/api';
 import { useModalData, useModalFunction } from 'src/states/modal';
 import { formatDate } from 'src/utils/format';
 import ProjectSelect from './ProjectSelect';
@@ -24,37 +24,43 @@ export default function CampaignOverview({ data, idCampaign }: { data: TCampaign
     };
     const activeSteps = useMemo(() => {
         const timeNow = Date.now();
-        if (timeNow > data.allocation.from) return 2;
-        if (timeNow > data.investment.from) return 1;
-        if (timeNow > data.participation.from) return 0;
+        if (timeNow > data.timeline.startRequesting) return 2;
+        if (timeNow > data.timeline.startFunding) return 1;
+        if (timeNow > data.timeline.startParticipation) return 0;
 
         return 0;
     }, [data]);
     return (
         <Box>
             <Grid container sx={{ mt: 2 }} spacing={2}>
-                <Grid item xs={12} sm={6} sx={{ display: 'flex' }}>
-                    <Img src={data.organizer.avatar || imagePath.DEFAULT_AVATAR.src} alt="organizer avatar" sx={{ width: '96px', height: '96px', mr: 2.2, borderRadius: '50%' }} />
-                    <Box flexGrow={1}>
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2, gap: 1.5 }}>
-                            <Box sx={{ flexGrow: 1 }}>
-                                <Typography variant="body1" color={'text.secondary'} mb={1}>
-                                    Organizer
-                                </Typography>
-                                <Typography variant="h6">{data.organizer.name}</Typography>
+                <Grid item xs={12} sm={6}>
+                    <Box sx={{ display: 'flex' }}>
+                        <Img
+                            src={data.organizer.avatar || imagePath.DEFAULT_AVATAR.src}
+                            alt="organizer avatar"
+                            sx={{ minWidth: '96px', width: '96px', height: '96px', mr: 2.2, borderRadius: '50%' }}
+                        />
+                        <Box sx={{ width: '-webkit-fill-available' }}>
+                            <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2, gap: 1.5 }}>
+                                <Box sx={{ flexGrow: 1 }}>
+                                    <Typography variant="body1" color={'text.secondary'} mb={1}>
+                                        Organizer
+                                    </Typography>
+                                    <Typography variant="h6">{data.organizer.name}</Typography>
+                                </Box>
+                                <Box sx={{ flexGrow: 1 }}>
+                                    <Typography variant="body1" color={'text.secondary'} mb={1}>
+                                        Capacity
+                                    </Typography>
+                                    <Typography variant="h6">{data.capacity} projects</Typography>
+                                </Box>
                             </Box>
-                            <Box sx={{ flexGrow: 1 }}>
-                                <Typography variant="body1" color={'text.secondary'} mb={1}>
-                                    Capacity
-                                </Typography>
-                                <Typography variant="h6">{data.capacity} projects</Typography>
+                            <Box>
+                                <Box
+                                    sx={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: '3', WebkitBoxOrient: 'vertical' }}
+                                    dangerouslySetInnerHTML={{ __html: data.description }}
+                                ></Box>
                             </Box>
-                        </Box>
-                        <Box>
-                            <Box
-                                sx={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: '3', WebkitBoxOrient: 'vertical' }}
-                                dangerouslySetInnerHTML={{ __html: data.description }}
-                            ></Box>
                         </Box>
                     </Box>
                 </Grid>
@@ -66,16 +72,19 @@ export default function CampaignOverview({ data, idCampaign }: { data: TCampaign
                         <StepView
                             activeStep={activeSteps}
                             steps={[
-                                { title: 'Participation', content: `${formatDate(Number(data.participation.from || 0), 'dd MMM')} - ${formatDate(Number(data.participation.to || 0), 'dd MMM')}` },
-                                { title: 'Investment', content: `${formatDate(Number(data.investment.from || 0), 'dd MMM')} - ${formatDate(Number(data.investment.to || 0), 'dd MMM')}` },
-                                { title: 'Allocation', content: `${formatDate(Number(data.allocation.from || 0), 'dd MMM')} - ${formatDate(Number(data.allocation.to || 0), 'dd MMM')}` },
+                                { title: 'Participation', content: `Start at: ${formatDate(Number(data.timeline.startParticipation || 0), 'MMMM dd, YYY')}` },
+                                { title: 'Investment', content: `Start at: ${formatDate(Number(data.timeline.startFunding || 0), 'MMMM dd, YYY')}` },
+                                { title: 'Allocation', content: `Start at: ${formatDate(Number(data.timeline.startRequesting || 0), 'MMMM dd, YYY')}` },
                             ]}
                         />
                     </Box>
                 </Grid>
             </Grid>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', placeItems: 'center' }} mt={5.5}>
-                <Typography variant="h6">Participating Projects</Typography>
+                {/* <Typography variant="h6">Participating Projects</Typography> */}
+                {/* <Button sx={{ minWidth: '184px' }} variant="contained" onClick={handleOpen}>
+                    Apply New
+                </Button> */}
             </Box>
             <Box mt={2.5}>
                 <ParticipatingProjects campaignId={idCampaign} />

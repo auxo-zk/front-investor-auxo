@@ -2,20 +2,44 @@ import axios from 'axios';
 import { apiUrl } from '../url';
 import { TProjectData } from '../project/api';
 
-export type TCampaignData = { name: string; type: string; date: string; capacity: string; avatar: string; banner: string; status: number; campaignId: string };
+export enum CampaignState {
+    'UPCOMING',
+    'APPLICATION',
+    'FUNDING',
+    'ALLOCATION',
+}
+
+export type TCampaignData = { name: string; fundingOption: number; date: string; capacity: number; avatar: string; banner: string; state: CampaignState; campaignId: string };
 export async function getLatestFundingCampaigns(active: boolean = true): Promise<TCampaignData[]> {
     const response: any[] = (await axios.get(apiUrl.getCampaignAll + `?active=${active}`)).data;
     console.log(response);
-    return response.map((item) => ({
-        name: item.ipfsData?.name || '---',
-        type: 'Public, grans',
-        capacity: String(item.ipfsData?.capacity || ''),
-        date: new Date().toLocaleDateString(),
-        avatar: item.ipfsData?.avatarImage || '',
-        banner: item.ipfsData?.coverImage || '',
-        status: item.status || 0,
-        campaignId: item.campaignId + '' || '#',
-    }));
+
+    return response.map((item) => {
+        const timeLine = {
+            startParticipation: item.timeline?.startParticipation ? item.timeline.startParticipation * 1000 : Date.now() + 60000,
+            startFunding: item.timeline?.startFunding ? item.timeline.startFunding * 1000 : Date.now() + 60000,
+            startRequesting: item.timeline?.startRequesting ? item.timeline.startRequesting * 1000 : Date.now() + 60000,
+        };
+        const now = new Date().getTime();
+        let state = CampaignState.UPCOMING;
+        if (now > timeLine.startParticipation && now < timeLine.startFunding) {
+            state = CampaignState.APPLICATION;
+        } else if (now > timeLine.startFunding && now < timeLine.startRequesting) {
+            state = CampaignState.FUNDING;
+        } else if (now > timeLine.startRequesting) {
+            state = CampaignState.ALLOCATION;
+        }
+        return {
+            name: item.ipfsData?.name || '---',
+            fundingOption: item.ipfsData?.fundingOption || 2,
+            capacity: item.ipfsData?.capacity || '0',
+            date: new Date().toLocaleDateString(),
+            avatar: item.ipfsData?.avatarImage || '',
+            banner: item.ipfsData?.coverImage || '',
+            state: state,
+            campaignId: item.campaignId + '' || '#',
+        };
+    });
 }
 // **************************************************************************************************************************
 export type TCampaignDetailOverview = {
@@ -26,20 +50,19 @@ export type TCampaignDetailOverview = {
     };
     capacity: string;
     description: string;
-
-    allocation: {
-        from: number;
-        to: number;
-    };
-    investment: {
-        from: number;
-        to: number;
-    };
-    participation: {
-        from: number;
-        to: number;
+    timeline: {
+        startParticipation: number;
+        startFunding: number;
+        startRequesting: number;
     };
 };
+
+export type TCampaignQuestion = {
+    question: string;
+    hint: string;
+    isRequired: boolean;
+};
+
 export type TCampaignResult = {};
 export type TCampaignDetail = {
     campaignId: string;
@@ -48,7 +71,7 @@ export type TCampaignDetail = {
     avatar: string;
     overview: TCampaignDetailOverview;
     result: TCampaignResult;
-    questions: { question: string; hint: ''; isRequired: boolean }[];
+    questions: TCampaignQuestion[];
 };
 export async function getCampaignOverview(campaignId: string): Promise<TCampaignDetail> {
     const response = (await axios.get(apiUrl.campaignDetail + `/${campaignId}`)).data;
@@ -59,23 +82,16 @@ export async function getCampaignOverview(campaignId: string): Promise<TCampaign
         avatar: response?.ipfsData?.avatarImage || '',
         overview: {
             organizer: {
-                address: response?.owner || '',
-                avatar: response?.ownerInfo?.img || '',
+                address: response?.ownerInfo?.address || '',
+                avatar: response?.ownerInfo?.img?.URL || '',
                 name: response?.ownerInfo?.name || 'Unnkown Name',
             },
             capacity: response.ipfsData?.capacity || '',
             description: response.ipfsData?.description || '',
-            allocation: {
-                from: new Date(response.ipfsData?.timeline?.allocation?.from || 0).getTime(),
-                to: new Date(response.ipfsData?.timeline?.allocation?.to || 0).getTime(),
-            },
-            participation: {
-                from: new Date(response.ipfsData?.timeline?.participation?.from || 0).getTime(),
-                to: new Date(response.ipfsData?.timeline?.participation?.to || 0).getTime(),
-            },
-            investment: {
-                from: new Date(response.ipfsData?.timeline?.investment?.from || 0).getTime(),
-                to: new Date(response.ipfsData?.timeline?.investment?.to || 0).getTime(),
+            timeline: {
+                startParticipation: response.timeline?.startParticipation * 1000 || 0,
+                startFunding: response.timeline?.startFunding * 1000 || 0,
+                startRequesting: response.timeline?.startRequesting * 1000 || 0,
             },
         },
         result: {},

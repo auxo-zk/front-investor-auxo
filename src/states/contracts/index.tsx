@@ -1,17 +1,20 @@
 import { atom, useAtom, useAtomValue } from 'jotai';
 import ZkAppWorkerClient from 'src/libs/AppWorker/zkWorkerClient';
 import { toast } from 'react-toastify';
+import { NetworkId } from 'src/constants';
 
 export type TContractData = {
     workerClient: ZkAppWorkerClient | null;
     isInitWorker: boolean;
     isLoading: boolean;
+    networkId: NetworkId;
 };
 
 const initData: TContractData = {
     workerClient: null,
     isInitWorker: true,
     isLoading: false,
+    networkId: NetworkId.AuxoDevNet,
 };
 
 const committeeContract = atom<TContractData>(initData);
@@ -58,7 +61,7 @@ export const useAppContractFunction = () => {
         }
         return false;
     }
-    async function complie(cacheFiles: any) {
+    async function compile(cacheFiles: any) {
         setAppContractData({ isLoading: true });
         try {
             if (zkApp.workerClient) {
@@ -72,8 +75,16 @@ export const useAppContractFunction = () => {
                 await zkApp.workerClient.loadContract();
                 await zkApp.workerClient.compileContract(cacheFiles);
                 await zkApp.workerClient.initZkappInstance({
-                    fundingContract: 'B62qmXviULjbcsjjtSB5ch3w6wKcfWyh4PqJf2SBPvyHUVhcRhrgX8e',
-                    requestContract: 'B62qnDCCc8iHuXu7systFTc2EuipJQQcbA5DwYGXkJgrviv7dkcSnPi',
+                    dkgContract: 'B62qizA7ZJxGakVK3Vcy6pdSedtXEY9rZber9EimAkzMAt4fCBpCQL9',
+                    requestContract: 'B62qq1KbnHnU6ZDv3R1ZytiNpiU73wWnoC3WZkVF5Ndo8Nf5W6K2xe7',
+                    fundingRequesterContract: 'B62qkcg1F7ncX45x6661jcmseVR1pAajDUEcyTm1Uhw6WK2ZHE68ANq',
+                    vestingRequesterContract: 'B62qqsUHyRwG1qL6R7wAptwA9d8fWNKtTsk5ZWr3wEL7XJ5u23GebL7',
+                    nullifierContract: 'B62qoCN9873TFC3m1br7nKV8khJxXdsj87ZKaqFTSonJVjqxKEUyHSG',
+                    vestingContract: 'B62qpLiwizQ3bS3R55uxyrPuJKUMmujj8gK7TzDUMSWZV8TnejxtLg1',
+                    projectContract: 'B62qrXSf1v8nhbkqTGvZmThwehN3QDZaT5VzJWsX3d52SNgiQwtCv5y',
+                    participationContract: 'B62qpoGFc1w2LWyD6zArBeVPaqXhzqHMpweSQJWkSnDzUPuRi5Zhw3j',
+                    treasuryContract: 'B62qkrNwWtie39pZj1C8qNY1v5Gwc5e7yLB8j71L1c9Ghm9gneKMi64',
+                    campaignContract: 'B62qpaYMPKGMpC4UvuscjW5VoX21eQJFWmcGxGW1zVqfMAUC18yx933',
                 });
                 setAppContractData({
                     isLoading: false,
@@ -89,7 +100,7 @@ export const useAppContractFunction = () => {
 
     return {
         setAppContractData,
-        complie,
+        compile,
         initClient,
     };
 };

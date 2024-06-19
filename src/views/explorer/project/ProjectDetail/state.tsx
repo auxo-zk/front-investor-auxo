@@ -7,12 +7,7 @@ const initData: TProjectDetail = {
     avatar: '',
     date: '',
     banner: '',
-    fundrasing: {
-        raiseInfo: [],
-        raisedAmount: 0,
-        targetAmount: 0,
-        documents: [],
-    },
+
     overview: {
         description: '',
         documents: [],

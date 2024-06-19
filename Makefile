@@ -7,4 +7,4 @@ dkg:
 	yarn remove @auxo-dev/dkg && yarn add @auxo-dev/dkg
 
 all:
-	yarn remove o1js @auxo-dev/auxo-libs @auxo-dev/dkg && yarn add o1js @auxo-dev/auxo-libs @auxo-dev/dkg
+	yarn remove o1js @auxo-dev/auxo-libs @auxo-dev/dkg @auxo-dev/platform && yarn add o1js @auxo-dev/auxo-libs @auxo-dev/dkg @auxo-dev/platform
