@@ -33,7 +33,7 @@ export default function CampaignOverview({ data, idCampaign }: { data: TCampaign
     return (
         <Box>
             <Grid container sx={{ mt: 2 }} spacing={2}>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={6} sx={{ zIndex: -1 }}>
                     <Box sx={{ display: 'flex' }}>
                         <Img
                             src={data.organizer.avatar || imagePath.DEFAULT_AVATAR.src}
@@ -86,7 +86,7 @@ export default function CampaignOverview({ data, idCampaign }: { data: TCampaign
                     Apply New
                 </Button> */}
             </Box>
-            <Box mt={2.5}>
+            <Box mt={5.5}>
                 <ParticipatingProjects campaignId={idCampaign} />
             </Box>
         </Box>
