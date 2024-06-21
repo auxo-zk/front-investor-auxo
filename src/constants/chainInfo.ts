@@ -37,7 +37,7 @@ export const AuxoNetworkInfo: ChainInfo = {
     name: 'Auxo Network',
     rpcUrl: 'https://explorer.auxo.dev/graphql',
     archiveUrl: 'https://explorer.auxo.dev/archive',
-    explorerUrl: 'https://explorer.auxo.fund/',
+    explorerUrl: 'https://explorer.auxo.fund',
 };
 
 export const chainInfo = {

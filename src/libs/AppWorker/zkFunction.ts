@@ -10,6 +10,7 @@ import { ArgumentTypes } from 'src/global.config';
 import { FileSystem } from 'src/states/cache';
 import { NetworkId } from 'src/constants';
 import { chainInfo } from 'src/constants/chainInfo';
+import { TDataInputFund } from 'src/services/services';
 
 const state = {
     ZkAppPlatform: null as null | typeof ZkAppPlatform,
@@ -20,7 +21,7 @@ const state = {
     RequestContract: null as null | ZkAppDkg.Request.RequestContract,
     ProjectContract: null as null | ZkAppPlatform.Project.ProjectContract,
     ParticipationContract: null as null | ZkAppPlatform.Participation.ParticipationContract,
-    NullifierContract: null as null | ZkAppPlatform.Commitment.CommitmentContract,
+    NullifierContract: null as null | ZkAppPlatform.Nullifier.NullifierContract,
     VestingContract: null as null | ZkAppPlatform.Vesting.VestingContract,
     TreasuryContract: null as null | ZkAppPlatform.TreasuryManager.TreasuryManagerContract,
     CampaignContract: null as null | ZkAppPlatform.Campaign.CampaignContract,
@@ -51,7 +52,7 @@ export const zkFunctions = {
         state.ZkAppDkg = ZkAppDkg;
     },
     getPercentageComplieDone: async (args: {}) => {
-        return ((state.compileDone / 5) * 100).toFixed(0);
+        return ((state.compileDone / 20) * 100).toFixed(0);
     },
     compileContract: async (args: { fileCache: any }) => {
         await state.ZkAppDkg!.Requester.UpdateTask.compile({ cache: FileSystem(args.fileCache) }); // 1
@@ -122,11 +123,11 @@ export const zkFunctions = {
         console.log('17. compile TreasuryManagerContract done');
         state.compileDone += 1;
 
-        await state.ZkAppPlatform!.Commitment.RollupCommitment.compile({ cache: FileSystem(args.fileCache) }); // 18
+        await state.ZkAppPlatform!.Nullifier.RollupNullifier.compile({ cache: FileSystem(args.fileCache) }); // 18
         console.log('18. compile RollupNullifier done');
         state.compileDone += 1;
 
-        await state.ZkAppPlatform!.Commitment.CommitmentContract.compile({ cache: FileSystem(args.fileCache) }); // 19
+        await state.ZkAppPlatform!.Nullifier.NullifierContract.compile({ cache: FileSystem(args.fileCache) }); // 19
         console.log('19. compile NullifierContract done');
         state.compileDone += 1;
 
@@ -173,7 +174,7 @@ export const zkFunctions = {
         state.TreasuryContract = new state.ZkAppPlatform!.TreasuryManager.TreasuryManagerContract!(treasuryContractPub);
 
         const nullifierContractPub = PublicKey.fromBase58(args.nullifierContract);
-        state.NullifierContract = new state.ZkAppPlatform!.Commitment.CommitmentContract!(nullifierContractPub);
+        state.NullifierContract = new state.ZkAppPlatform!.Nullifier.NullifierContract!(nullifierContractPub);
 
         const vestingContractPub = PublicKey.fromBase58(args.vestingContract);
         state.VestingContract = new state.ZkAppPlatform!.Vesting.VestingContract!(vestingContractPub);
@@ -182,18 +183,11 @@ export const zkFunctions = {
         state.CampaignContract = new state.ZkAppPlatform!.Campaign.CampaignContract!(campaignContractPub);
     },
 
-    investProjects: async (args: { sender: string; campaignId: string; keyPub: string }) => {
+    investProjects: async (args: { sender: string; campaignId: string; keyPub: string; dataBackend: TDataInputFund }) => {
         const sender = PublicKey.fromBase58(args.sender);
         await fetchAccount({ publicKey: sender });
-        const transaction = await Mina.transaction(sender, async () => {
-            // state.FundingContract!.fund({
-            //     campaignId: Field(args.campaignId),
-            //     committeePublicKey: PublicKey.fromBase58(args.keyPub),
-            //     treasuryContract: null,
-            //     random: null,
-            //     secretVector: null,
-            // });
-        });
+        await fetchAccount({ publicKey: state.FundingRequesterContract!.address });
+        const transaction = await Mina.transaction(sender, async () => {});
         state.transaction = transaction;
     },
 

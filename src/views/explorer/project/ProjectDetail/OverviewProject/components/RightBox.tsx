@@ -23,8 +23,8 @@ export default function RightBox() {
                 {overview?.documents?.map((item, index) => {
                     return (
                         <Box key={index} sx={{ display: 'flex', justifyContent: 'space-between', placeItems: 'center', pt: 3 }}>
-                            <Typography variant="body2" color={'primary.light'}>
-                                FileName.pdf
+                            <Typography variant="body2" color={'primary.light'} sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                {item.fileName}
                             </Typography>
                             <SaveAltRounded sx={{ color: 'primary.light', cursor: 'pointer' }} fontSize="small" />
                         </Box>
@@ -41,7 +41,7 @@ export default function RightBox() {
                         Team Member
                     </Typography>
                     {overview.member.map((member, index) => {
-                        return <StackTeamMember key={index} sx={{ mb: 1 }} name={member.name} urlImage="" desc={member.role} />;
+                        return <StackTeamMember key={index} sx={{ mb: 1 }} name={member.name} urlImage={''} desc={member.role} />;
                     })}
                 </Box>
             </Box>

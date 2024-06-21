@@ -8,7 +8,8 @@ import { useProjectDetailData } from './state';
 import { useState } from 'react';
 import FundRaisingProject from './FundrasingProject/FundRaising';
 import OverviewProject from './OverviewProject/OverviewProject';
-export default function ProjectDetail() {
+
+export default function ProjectDetail({ projectId }: { projectId: string }) {
     const { name, avatar, banner, date, overview } = useProjectDetailData();
     const [selected, setSelected] = useState<number>(0);
     return (
@@ -46,7 +47,7 @@ export default function ProjectDetail() {
             </Box>
 
             {selected === 0 && <OverviewProject />}
-            {selected === 1 && <FundRaisingProject />}
+            {selected === 1 && <FundRaisingProject projectId={projectId} />}
         </Container>
     );
 }

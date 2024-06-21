@@ -53,6 +53,13 @@ export type TMemberData = {
     publicKey: string;
 };
 
+export type TScopeOfWork = {
+    deadline: string;
+    information: string;
+    milestone: string;
+    raisingAmount: string;
+};
+
 export type TProjectOverview = {
     raisingAmount?: number;
     campaignAmount?: number;
@@ -61,17 +68,6 @@ export type TProjectOverview = {
     member: TMemberData[];
 } & {
     [key in KeyProjectInput]: string;
-};
-
-export type TProjectFundRaising = {
-    raisedAmount?: number;
-    targetAmount?: number;
-    raiseInfo: {
-        scope: string;
-        budgetRequired: string;
-        etc: string;
-    }[];
-    documents: string[];
 };
 
 export type TProjectDetail = {
@@ -100,4 +96,43 @@ export async function getProjectDetail(projectId: string): Promise<TProjectDetai
             [KeyProjectInput.challengesAndRisks]: response?.ipfsData ? response?.ipfsData[KeyProjectInput.challengesAndRisks] || '' : '',
         },
     };
+}
+
+export type TQuestions = {
+    question: string;
+    hint: string;
+    isRequired: boolean;
+};
+export type TProjectFundRaising = {
+    campaignId: string;
+    campaignName: string;
+    fundedAmount: number;
+    targetAmount: number;
+    raiseInfo: {
+        scope: string;
+        budgetRequired: string;
+        etc: string;
+    }[];
+    documents: TFileSaved[];
+    scopeOfWorks: TScopeOfWork[];
+    questions: TQuestions[];
+    answers: string[];
+};
+
+export async function getFundRaisingProject(projectId: string): Promise<TProjectFundRaising[]> {
+    const response = (await axios.get(apiUrl.getParticipationsByProjectId(projectId))).data;
+    return response.map((item: any) => ({
+        campaignId: item.campaignId + '',
+        campaignName: item.campaign?.ipfsData?.name || '',
+        fundedAmount: item.claimedAmount || 0,
+        targetAmount:
+            item.ipfsData?.scopeOfWorks?.reduce((accumulator: number, item: any) => {
+                return accumulator + Number(item.raisingAmount);
+            }, 0) || 0,
+        raiseInfo: item.raiseInfo || [],
+        documents: item.ipfsData?.documents || [],
+        scopeOfWorks: item.ipfsData?.scopeOfWorks || [],
+        questions: item.campaign?.ipfsData?.questions || [],
+        answers: item.ipfsData?.answers || [],
+    }));
 }

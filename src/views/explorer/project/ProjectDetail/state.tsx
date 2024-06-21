@@ -1,8 +1,10 @@
 import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { useEffect } from 'react';
-import { KeyProjectInput, TProjectDetail } from 'src/services/project/api';
+import { KeyProjectInput, TProjectDetail, TProjectFundRaising } from 'src/services/project/api';
 
-const initData: TProjectDetail = {
+export type TStateDetailProject = TProjectDetail & { fundrasing: TProjectFundRaising[]; selectedCampaignIndex: number | null };
+
+const initData: TStateDetailProject = {
     name: '',
     avatar: '',
     date: '',
@@ -18,17 +20,40 @@ const initData: TProjectDetail = {
         [KeyProjectInput.challengesAndRisks]: '',
         [KeyProjectInput.problemStatement]: '',
     },
+
+    selectedCampaignIndex: null,
+    fundrasing: [],
 };
 
-const projectDetail = atom<TProjectDetail>(initData);
+const projectDetail = atom<TStateDetailProject>(initData);
 
 export default function InitProjectDetailData({ data }: { data: TProjectDetail }) {
     const setProjectDetailData = useSetAtom(projectDetail);
     useEffect(() => {
-        setProjectDetailData(data);
-        console.log('set:', data);
-    }, [data, setProjectDetailData]);
+        setProjectDetailData((prev) => {
+            return {
+                ...prev,
+                ...data,
+            };
+        });
+        // console.log('set:', data);
+    }, []);
     return <></>;
 }
 
 export const useProjectDetailData = () => useAtomValue(projectDetail);
+export function useProjectDetailFunction() {
+    const _setProjectDetailData = useSetAtom(projectDetail);
+
+    function setProjectDetailData(data: Partial<TStateDetailProject>) {
+        _setProjectDetailData((prev) => {
+            return {
+                ...prev,
+                ...data,
+            };
+        });
+    }
+    return {
+        setProjectDetailData,
+    };
+}
