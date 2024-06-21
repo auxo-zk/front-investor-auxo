@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { apiUrl } from './url';
+import { TRef, TWitness } from './type';
 
 export type TCommitteeData = {
     id: string;
@@ -54,4 +55,31 @@ export async function getTokenFromSig(data: {
     console.log('🚀 ~ file: services.ts:60 ~ apiUrl.getTokenFromSig:', apiUrl.getTokenFromSig);
     const response = (await axios.post(apiUrl.getTokenFromSig, data)).data as RTGetTokenFromSig;
     return response;
+}
+
+// ************************************************************************************************************************************************
+export type TDataInputFund = {
+    timeline: {
+        startParticipation: number;
+        startFunding: number;
+        startRequesting: number;
+    };
+    timelineWitness: TWitness;
+    projectCounter: number;
+    projectCounterWitness: TWitness;
+    committeeId: number;
+    keyId: number;
+    keyWitnessForRequester: TWitness;
+    key: string;
+    keyWitnessForDkg: TWitness;
+    fundingContractWitness: TWitness;
+    campaignContractRef: TRef;
+    participationContractRef: TRef;
+    dkgContractRef: TRef;
+    treasuryManagerContractRef: TRef;
+    requesterContractRef: TRef;
+};
+export async function getDataInputFund(campaignId: string): Promise<TDataInputFund> {
+    const response = await axios.get(apiUrl.getDataInputFund(campaignId));
+    return response.data;
 }

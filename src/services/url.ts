@@ -23,4 +23,7 @@ export const apiUrl = {
     getCampaignAll: `${BACKEND_BASE_URL}/v0/campaigns/all`,
     campaignDetail: `${BACKEND_BASE_URL}/v0/campaigns`,
     getParticipatingProjects: (campaignId: string) => `${BACKEND_BASE_URL}/v0/campaigns/${campaignId}/projects`,
+
+    getDataInputFund: (campaignId: string) => `${BACKEND_BASE_URL}/v0/method-inputs/funding-contract/fund?campaignId=${campaignId}`,
+    getParticipationsByProjectId: (projectId: string) => `${BACKEND_BASE_URL}/v0/projects/${projectId}/participations`,
 };

@@ -4,11 +4,11 @@ import { getProjectDetail } from 'src/services/project/api';
 import ProjectDetail from 'src/views/explorer/project/ProjectDetail/ProjectDetail';
 import InitProjectDetailData from 'src/views/explorer/project/ProjectDetail/state';
 
-export default function DetailProject({ data }: InferGetStaticPropsType<typeof getServerSideProps>) {
+export default function DetailProject({ data, idProject }: InferGetStaticPropsType<typeof getServerSideProps>) {
     return (
         <>
             <InitProjectDetailData data={data} />
-            <ProjectDetail />
+            <ProjectDetail projectId={idProject} />
         </>
     );
 }
@@ -20,7 +20,7 @@ export const getServerSideProps = (async (context) => {
         const data = res;
 
         return {
-            props: { data },
+            props: { data, idProject: id as string },
         };
     } catch (error) {
         console.log(error);

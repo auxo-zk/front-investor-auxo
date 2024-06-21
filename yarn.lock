@@ -25,10 +25,10 @@
     "@auxo-dev/auxo-libs" "0.5.7"
     o1js "0.18.0"
 
-"@auxo-dev/platform@0.2.10":
-  version "0.2.10"
-  resolved "https://registry.yarnpkg.com/@auxo-dev/platform/-/platform-0.2.10.tgz#13629c7bcbcbde41ea301e54c2a3ed3f81958456"
-  integrity sha512-YUbjqz2SsTXPFnehkeldFFAHIzbkhRtHv3zo2NfgxI/6xArEgRo4LQoO6MFi5h/h3wi/yx8VzNUdMO1YOHFDbw==
+"@auxo-dev/platform@^0.2.13":
+  version "0.2.13"
+  resolved "https://registry.yarnpkg.com/@auxo-dev/platform/-/platform-0.2.13.tgz#32d8bb2cfcd8231904a0c41817d864014dc47e59"
+  integrity sha512-olSVhLW4NDMuF60okzwh4Y+HYt8bH4lCYva8WV033maTT0NrSQzD21NAzF5wINy1vP/6SpC6BCH6UWzL9XKJkA==
   dependencies:
     "@auxo-dev/auxo-libs" "0.5.7"
     "@auxo-dev/dkg" "0.4.10"
