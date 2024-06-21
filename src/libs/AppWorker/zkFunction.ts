@@ -1,16 +1,21 @@
-import { Field, Mina, PublicKey, fetchAccount } from 'o1js';
+import { Field, Mina, PublicKey, UInt64, fetchAccount } from 'o1js';
 
 type Transaction = Awaited<ReturnType<typeof Mina.transaction>>;
 
 // ---------------------------------------------------------------------------------------
 
 import type { ZkApp as ZkAppPlatform } from '@auxo-dev/platform';
-import type { ZkApp as ZkAppDkg } from '@auxo-dev/dkg';
+import { Constants, DkgLevel1Witness, NullifierArray, RandomVector, RequesterLevel1Witness, type ZkApp as ZkAppDkg } from '@auxo-dev/dkg';
 import { ArgumentTypes } from 'src/global.config';
 import { FileSystem } from 'src/states/cache';
 import { NetworkId } from 'src/constants';
 import { chainInfo } from 'src/constants/chainInfo';
 import { TDataInputFund } from 'src/services/services';
+import { CampaignLevel1Witness, Timeline, TimelineLevel1Witness } from '@auxo-dev/platform/build/esm/src/storages/CampaignStorage';
+import { AmountVector } from '@auxo-dev/platform/build/esm/src/storages/FundingStorage';
+import { CustomScalar, Utils } from '@auxo-dev/auxo-libs';
+import { getRandomInt } from 'src/utils';
+import { AddressWitness, ZkAppRef } from '@auxo-dev/platform/build/esm/src/storages/SharedStorage';
 
 const state = {
     ZkAppPlatform: null as null | typeof ZkAppPlatform,
@@ -25,6 +30,7 @@ const state = {
     VestingContract: null as null | ZkAppPlatform.Vesting.VestingContract,
     TreasuryContract: null as null | ZkAppPlatform.TreasuryManager.TreasuryManagerContract,
     CampaignContract: null as null | ZkAppPlatform.Campaign.CampaignContract,
+    FundingContract: null as null | ZkAppPlatform.Funding.FundingContract,
     transaction: null as null | Transaction,
     compileDone: 0 as number,
     networkId: null as null | NetworkId,
@@ -151,6 +157,7 @@ export const zkFunctions = {
         nullifierContract: string;
         vestingContract: string;
         campaignContract: string;
+        fundingContract: string;
     }) => {
         const fundingRequesterContractPub = PublicKey.fromBase58(args.fundingRequesterContract);
         state.FundingRequesterContract = new state.ZkAppDkg!.Requester.RequesterContract!(fundingRequesterContractPub);
@@ -181,13 +188,50 @@ export const zkFunctions = {
 
         const campaignContractPub = PublicKey.fromBase58(args.campaignContract);
         state.CampaignContract = new state.ZkAppPlatform!.Campaign.CampaignContract!(campaignContractPub);
+
+        const fundingContractPub = PublicKey.fromBase58(args.fundingContract);
+        state.FundingContract = new state.ZkAppPlatform!.Funding.FundingContract!(fundingContractPub);
     },
 
-    investProjects: async (args: { sender: string; campaignId: string; keyPub: string; dataBackend: TDataInputFund }) => {
+    investProjects: async (args: { sender: string; campaignId: string; funds: { projectId: string; index: number; amount: number; nullifier: number }[]; dataBackend: TDataInputFund }) => {
         const sender = PublicKey.fromBase58(args.sender);
         await fetchAccount({ publicKey: sender });
         await fetchAccount({ publicKey: state.FundingRequesterContract!.address });
-        const transaction = await Mina.transaction(sender, async () => {});
+        await fetchAccount({ publicKey: state.FundingContract!.address });
+        await fetchAccount({ publicKey: state.DkgContract!.address });
+
+        const dimensionIndexes = Utils.packNumberArray(
+            args.funds.map((fund) => fund.index),
+            8
+        );
+        const transaction = await Mina.transaction(sender, async () => {
+            await state.FundingContract!.fund(
+                new Field(args.campaignId),
+                new Timeline({
+                    startFunding: new UInt64(args.dataBackend.timeline.startFunding),
+                    startParticipation: new UInt64(args.dataBackend.timeline.startParticipation),
+                    startRequesting: new UInt64(args.dataBackend.timeline.startRequesting),
+                }),
+                TimelineLevel1Witness.fromJSON(args.dataBackend.timelineWitness),
+                dimensionIndexes,
+                new Field(args.dataBackend.projectCounter),
+                CampaignLevel1Witness.fromJSON(args.dataBackend.projectCounterWitness),
+                new Field(args.dataBackend.committeeId),
+                new Field(args.dataBackend.keyId),
+                RequesterLevel1Witness.fromJSON(args.dataBackend.keyWitnessForRequester),
+                PublicKey.fromBase58(args.dataBackend.key),
+                DkgLevel1Witness.fromJSON(args.dataBackend.keyWitnessForDkg),
+                new AmountVector(args.funds.map((fund) => new UInt64((fund.amount * 10 ** 9) / Constants.SECRET_UNIT))),
+                new RandomVector(args.funds.map((fund) => CustomScalar.fromUInt64(new UInt64(getRandomInt(2, 2 ** 64 - 1))))),
+                new NullifierArray(args.funds.map((fund) => new Field(fund.nullifier))),
+                AddressWitness.fromJSON(args.dataBackend.fundingContractWitness),
+                ZkAppRef.fromJSON(args.dataBackend.campaignContractRef),
+                ZkAppRef.fromJSON(args.dataBackend.participationContractRef),
+                ZkAppRef.fromJSON(args.dataBackend.dkgContractRef),
+                ZkAppRef.fromJSON(args.dataBackend.treasuryManagerContractRef),
+                ZkAppRef.fromJSON(args.dataBackend.requesterContractRef)
+            );
+        });
         state.transaction = transaction;
     },
 
