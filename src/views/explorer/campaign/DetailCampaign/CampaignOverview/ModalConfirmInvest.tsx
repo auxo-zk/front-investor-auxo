@@ -22,7 +22,7 @@ export default function ModalConfirmInvest({ listProject, campaignId }: { listPr
             if (!workerClient) throw Error('Worker client is dead, reload page again!');
 
             const listFundProjects = listProject
-                .map((item, index) => ({ projectId: item.data.idProject, amount: Number(item.investInput), index: index, nullifier: getRandomInt(2, 250) }))
+                .map((item, index) => ({ projectId: item.data.idProject, amount: Number(item.investInput), index: index, nullifier: getRandomInt(2, 2 ** 254) }))
                 .filter((item) => item.amount != 0 && item.amount >= 0.01);
             console.log(listFundProjects);
 
