@@ -80,4 +80,7 @@ export default class ZkAppWorkerClient {
     getTransactionJSON() {
         return this._call('getTransactionJSON', {});
     }
+    investProjects(args: ArgumentZkFuction<'investProjects'>) {
+        return this._call('investProjects', args);
+    }
 }
