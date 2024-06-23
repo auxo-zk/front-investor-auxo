@@ -204,6 +204,7 @@ export const zkFunctions = {
             args.funds.map((fund) => fund.index),
             8
         );
+        console.log({ dimensionIndexes, args });
         const transaction = await Mina.transaction(sender, async () => {
             await state.FundingContract!.fund(
                 new Field(args.campaignId),
