@@ -7,7 +7,7 @@ import { formatDate } from 'src/utils/format';
 
 export default function CardProject({ data, children }: { data: TProjectData; children?: ReactNode }) {
     return (
-        <Card avatar={data.avatar} banner={data.banner} subChildren={children}>
+        <Card avatar={data.avatar} banner={data.banner} subChildren={children} sxBanner={{ minHeight: '102px' }}>
             <Link href={`/explorer/projects/${data.idProject}`} style={{ textDecoration: 'none', color: 'unset' }}>
                 <Typography variant="h6" fontWeight={600} mt={1}>
                     {data.name}
@@ -24,7 +24,7 @@ export default function CardProject({ data, children }: { data: TProjectData; ch
             </Typography> */}
             <Box
                 mt={2}
-                sx={{ overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: '4', WebkitBoxOrient: 'vertical' }}
+                sx={{ overflow: 'hidden', textOverflow: 'ellipsis', height: '92px', display: '-webkit-box', WebkitLineClamp: '4', WebkitBoxOrient: 'vertical', '& > *': { m: 0 } }}
                 dangerouslySetInnerHTML={{ __html: data.desc }}
             />
         </Card>
