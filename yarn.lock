@@ -9,15 +9,7 @@
   dependencies:
     o1js "0.18.0"
 
-"@auxo-dev/dkg@0.4.10":
-  version "0.4.10"
-  resolved "https://registry.yarnpkg.com/@auxo-dev/dkg/-/dkg-0.4.10.tgz#1d73fea43207a21f367ae1725c1355ed71a190d4"
-  integrity sha512-RqgJtJNJDWPw0Tfaxb80q/F7jB6ospBNJU8jelngAGIKpUfc9OunG+lq6MB0r+UKcN8oCQAhN2XzDxAd/TJwmw==
-  dependencies:
-    "@auxo-dev/auxo-libs" "0.5.7"
-    o1js "0.18.0"
-
-"@auxo-dev/dkg@^0.4.11":
+"@auxo-dev/dkg@0.4.11", "@auxo-dev/dkg@^0.4.11":
   version "0.4.11"
   resolved "https://registry.yarnpkg.com/@auxo-dev/dkg/-/dkg-0.4.11.tgz#6a9c1af38dc25d41195699c99779b41701c74847"
   integrity sha512-cMgzY9pr0b3/3UkXzeyV3lB0F38Aql73eV2OWg2q/WnJjpu4QuV1sOGYERGTbJL2VK6C3AX+7kBIoc5wD49gYA==
@@ -25,13 +17,13 @@
     "@auxo-dev/auxo-libs" "0.5.7"
     o1js "0.18.0"
 
-"@auxo-dev/platform@^0.2.13":
-  version "0.2.13"
-  resolved "https://registry.yarnpkg.com/@auxo-dev/platform/-/platform-0.2.13.tgz#32d8bb2cfcd8231904a0c41817d864014dc47e59"
-  integrity sha512-olSVhLW4NDMuF60okzwh4Y+HYt8bH4lCYva8WV033maTT0NrSQzD21NAzF5wINy1vP/6SpC6BCH6UWzL9XKJkA==
+"@auxo-dev/platform@^0.2.14":
+  version "0.2.14"
+  resolved "https://registry.yarnpkg.com/@auxo-dev/platform/-/platform-0.2.14.tgz#3c3a46ab301ac3e2cb27b910e8edd82375c375b0"
+  integrity sha512-fMQeBIbm5hMM9nBJaqZtbLchD2qw2eCfxrq6sLGrSau4szowoKrtN3pjl/LR6OAeNv7Gn8tLOwiZqVWrrUsJjA==
   dependencies:
     "@auxo-dev/auxo-libs" "0.5.7"
-    "@auxo-dev/dkg" "0.4.10"
+    "@auxo-dev/dkg" "0.4.11"
     axios "^1.6.7"
     dotenv "^16.4.5"
     o1js "0.18.0"
