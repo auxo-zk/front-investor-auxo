@@ -6,6 +6,7 @@ import ButtonLoading from 'src/components/ButtonLoading/ButtonLoading';
 import { TProjectData } from 'src/services/project/api';
 import { getDataInputFund } from 'src/services/services';
 import { useAppContract } from 'src/states/contracts';
+import { useModalFunction } from 'src/states/modal';
 import { useWalletData } from 'src/states/wallet';
 import { getRandomInt, setDataFundProject } from 'src/utils';
 import { formatNumber } from 'src/utils/format';
@@ -14,6 +15,7 @@ export default function ModalConfirmInvest({ listProject, campaignId }: { listPr
     const { userAddress } = useWalletData();
     const { workerClient } = useAppContract();
     const [loading, setLoading] = React.useState<boolean>(false);
+    const { closeModal } = useModalFunction();
     async function handleInvest() {
         setLoading(true);
         const idtoast = toast.loading('Create transaction and proving...', { position: 'top-center', type: 'info' });
@@ -45,6 +47,7 @@ export default function ModalConfirmInvest({ listProject, campaignId }: { listPr
                 setDataFundProject(userAddress, campaignId, item.projectId, [{ amount: item.amount, nullifier: item.nullifier }]);
             });
             toast.update(idtoast, { render: 'Send transaction successfull!', isLoading: false, type: 'success', autoClose: 3000, hideProgressBar: false });
+            closeModal();
         } catch (err) {
             console.log(err);
             toast.update(idtoast, { render: (err as Error).message, type: 'error', position: 'top-center', isLoading: false, autoClose: 3000, hideProgressBar: false });

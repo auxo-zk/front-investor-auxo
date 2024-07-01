@@ -31,6 +31,12 @@ export function setDataFundProject(addressUser: string, campaignId: string, proj
     localStorage.setItem(getKeyFundProject(addressUser), JSON.stringify(fundData));
 }
 
+export function getTotalFunedProject(addressUser: string, campaignId: string, projectId: string) {
+    const fundData = getDataFundProject(addressUser);
+    const data = fundData[`${campaignId}-${projectId}`] || [];
+    return data.map((item) => item.amount).reduce((a, b) => a + b, 0);
+}
+
 export function downloadTextFile(content: string, filename: string) {
     const blob = new Blob([content], { type: 'text/plain' });
 

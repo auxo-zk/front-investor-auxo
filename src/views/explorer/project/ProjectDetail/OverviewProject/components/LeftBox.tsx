@@ -3,26 +3,29 @@ import React from 'react';
 import { FontInter } from 'src/assets/fonts';
 import { useProjectDetailData } from '../../state';
 import { KeyProjectInput } from 'src/services/project/api';
+import { formatNumber } from 'src/utils/format';
+import { IconMina } from 'src/assets/svg/icon';
 
 export default function LeftBox() {
-    const { overview } = useProjectDetailData();
+    const { overview, totalClaimedAmount, totalFundedAmount } = useProjectDetailData();
     return (
         <Box sx={{ width: '100%' }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                 <Box>
-                    <Typography variant="h6">Raising Amount</Typography>
-                    <Typography variant="h1" sx={{ fontFamily: FontInter.style.fontFamily, mt: 1 }}>
-                        {overview.raisingAmount}
-                    </Typography>
+                    <Typography variant="h6">Claimed Amount</Typography>
+                    <Box sx={{ display: 'flex', placeItems: 'center', mt: 1, gap: 1 }}>
+                        <IconMina sx={{ fontSize: '40px' }} />
+                        <Typography variant="h2" sx={{ fontFamily: FontInter.style.fontFamily }}>
+                            {formatNumber(totalClaimedAmount, { fractionDigits: 2 })}
+                        </Typography>
+                    </Box>
                 </Box>
                 <Box>
-                    <Typography variant="h6">Campaign Amount</Typography>
-                    <Box sx={{ display: 'flex', placeItems: 'end', mt: 1 }}>
-                        <Typography variant="h1" fontWeight={300} color={'secondary.main'}>
-                            7
-                        </Typography>
-                        <Typography variant="h4" fontWeight={300} color={'secondary.main'}>
-                            /13
+                    <Typography variant="h6">Funded Amount</Typography>
+                    <Box sx={{ display: 'flex', placeItems: 'center', mt: 1, gap: 1 }}>
+                        <IconMina sx={{ fontSize: '40px' }} />
+                        <Typography variant="h2" fontWeight={300} color={'secondary.main'}>
+                            {formatNumber(totalFundedAmount, { fractionDigits: 2 })}
                         </Typography>
                     </Box>
                 </Box>

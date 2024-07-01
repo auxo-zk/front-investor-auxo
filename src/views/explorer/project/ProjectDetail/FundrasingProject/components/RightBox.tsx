@@ -23,7 +23,13 @@ export default function RightBox() {
                     <>
                         {fundrasing[selectedCampaignIndex]?.documents.map((item, index) => {
                             return (
-                                <Box key={index} sx={{ display: 'flex', justifyContent: 'space-between', placeItems: 'center', pt: 3 }}>
+                                <Box
+                                    key={index}
+                                    component={'a'}
+                                    href={item.URL}
+                                    target="_blank"
+                                    sx={{ textDecoration: 'none', display: 'flex', justifyContent: 'space-between', placeItems: 'center', pt: 3 }}
+                                >
                                     <Typography variant="body2" color={'primary.light'}>
                                         {item.fileName}
                                     </Typography>

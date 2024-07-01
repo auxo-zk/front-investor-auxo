@@ -1,6 +1,6 @@
 import { ExpandMoreRounded } from '@mui/icons-material';
 import { Box, Button, Grid, TextField, Typography } from '@mui/material';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { use, useEffect, useMemo, useState } from 'react';
 import { IconMina, IconSpinLoading, IconUSD } from 'src/assets/svg/icon';
 import NoData from 'src/components/NoData';
 import { getParticipatingProjects } from 'src/services/campaign/api';
@@ -9,8 +9,10 @@ import { useModalFunction } from 'src/states/modal';
 import { formatNumber } from 'src/utils/format';
 import CardProject from 'src/views/common/CardProject';
 import ModalConfirmInvest from './ModalConfirmInvest';
+import { getTotalFunedProject } from 'src/utils';
+import { useWalletData } from 'src/states/wallet';
 
-export default function ParticipatingProjects({ campaignId }: { campaignId: string }) {
+export default function ParticipatingProjects({ campaignId, timeForFund }: { campaignId: string; timeForFund: boolean }) {
     const { openModal } = useModalFunction();
     const [listProject, setListProject] = useState<{ data: TProjectData; investInput: string }[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
@@ -86,24 +88,32 @@ export default function ParticipatingProjects({ campaignId }: { campaignId: stri
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, placeItems: 'center', mb: 3 }}>
                 <TextField variant="outlined" color="secondary" label="Search project" name="project_name" sx={{ width: '100%', maxWidth: '305px' }} />
                 <Box ml={'auto'} sx={{ display: 'flex', placeItems: 'center', gap: 1, flexWrap: 'wrap' }}>
-                    <IconUSD />
-                    <Typography sx={{}}>
-                        Investing{' '}
-                        <Typography component={'span'} fontWeight={600} color={'secondary.main'}>
-                            {formatNumber(totalInvest, { fractionDigits: 2 })}
-                        </Typography>{' '}
-                        <Typography component={'span'} color={'secondary.main'}>
-                            MINA
-                        </Typography>{' '}
-                        in{' '}
-                        <Typography component={'span'} color={'primary.light'} fontWeight={600}>
-                            {lengthInvest}
-                        </Typography>{' '}
-                        projects
-                    </Typography>
-                    <Button variant="contained" sx={{ ml: 'auto' }} disabled={lengthInvest == 0} onClick={openModalInvest}>
-                        Invest
-                    </Button>
+                    {timeForFund ? (
+                        <>
+                            <IconUSD />
+                            <Typography sx={{}}>
+                                Investing{' '}
+                                <Typography component={'span'} fontWeight={600} color={'secondary.main'}>
+                                    {formatNumber(totalInvest, { fractionDigits: 2 })}
+                                </Typography>{' '}
+                                <Typography component={'span'} color={'secondary.main'}>
+                                    MINA
+                                </Typography>{' '}
+                                in{' '}
+                                <Typography component={'span'} color={'primary.light'} fontWeight={600}>
+                                    {lengthInvest}
+                                </Typography>{' '}
+                                projects
+                            </Typography>
+                            <Button variant="contained" sx={{ ml: 'auto' }} disabled={lengthInvest == 0} onClick={openModalInvest}>
+                                Invest
+                            </Button>
+                        </>
+                    ) : (
+                        <Button variant="contained" sx={{ ml: 'auto' }} disabled>
+                            Not time for funding
+                        </Button>
+                    )}
                 </Box>
             </Box>
 
@@ -111,7 +121,7 @@ export default function ParticipatingProjects({ campaignId }: { campaignId: stri
                 {listProject.map((item, index) => {
                     return (
                         <Grid key={'projectJoinedcampain' + index + item.data.idProject} item xs={12} xsm={6} md={4}>
-                            <CardProjectJoinedCampain item={item} onChange={(value) => enterInvestAmount(index, value)} />
+                            <CardProjectJoinedCampain item={item} onChange={(value) => enterInvestAmount(index, value)} campaignId={campaignId} timeForFund={timeForFund} />
                         </Grid>
                     );
                 })}
@@ -120,7 +130,24 @@ export default function ParticipatingProjects({ campaignId }: { campaignId: stri
     );
 }
 
-function CardProjectJoinedCampain({ item, onChange }: { item: { data: TProjectData; investInput: string }; onChange: (value: string) => void }) {
+function CardProjectJoinedCampain({
+    item,
+    onChange,
+    campaignId,
+    timeForFund,
+}: {
+    item: { data: TProjectData; investInput: string };
+    onChange: (value: string) => void;
+    campaignId: string;
+    timeForFund: boolean;
+}) {
+    const { userAddress } = useWalletData();
+    const invested = useMemo(() => {
+        if (userAddress) {
+            return getTotalFunedProject(userAddress, campaignId, item.data.idProject);
+        }
+        return 0;
+    }, [item.data.idProject, userAddress]);
     return (
         <CardProject data={item.data}>
             <Box>
@@ -128,7 +155,7 @@ function CardProjectJoinedCampain({ item, onChange }: { item: { data: TProjectDa
                     <Box sx={{ display: 'flex', placeItems: 'center' }}>
                         <Typography color={'text.secondary'}>Invested</Typography>
                         <Typography variant="h6" ml={'auto'} mr={1}>
-                            1,000
+                            {formatNumber(invested, { fractionDigits: 2 })}
                         </Typography>
                         <Typography variant="h6" fontWeight={400}>
                             MINA
@@ -143,6 +170,7 @@ function CardProjectJoinedCampain({ item, onChange }: { item: { data: TProjectDa
                         InputProps={{ endAdornment: <IconMina /> }}
                         autoFocus={true}
                         fullWidth
+                        disabled={!timeForFund}
                         error={Number(item.investInput) != 0 && Number(item.investInput) < 0.01}
                         helperText={Number(item.investInput) != 0 && Number(item.investInput) < 0.01 ? 'Minimum investment amount is 0.01 MINA' : ''}
                         sx={{ mt: 2, bgcolor: 'white', borderRadius: '10px' }}
@@ -152,54 +180,3 @@ function CardProjectJoinedCampain({ item, onChange }: { item: { data: TProjectDa
         </CardProject>
     );
 }
-
-// function CardProjectJoinedCampain({ item, onChange }: { item: { data: TProjectData; investInput: string }; onChange: (value: string) => void }) {
-//     return (
-//         <CardProject data={item.data}>
-//             <Box
-//                 sx={{
-//                     bgcolor: 'background.secondary',
-//                     '.toggleProject:checked + .btn-toggle > .icon': { transform: 'rotateX(180deg)' },
-//                     '.toggleProject:checked + .btn-toggle + .content-toggle': { gridTemplateRows: '1fr' },
-//                 }}
-//             >
-//                 <input className="toggleProject" type="checkbox" id={`toggle-${item.data.idProject}`} style={{ display: 'none' }} />
-//                 <Typography
-//                     component={'label'}
-//                     htmlFor={`toggle-${item.data.idProject}`}
-//                     className="btn-toggle"
-//                     variant="body2"
-//                     sx={{ display: 'flex', placeItems: 'center', justifyContent: 'center', gap: 1, cursor: 'pointer', fontWeight: 600, pb: 2 }}
-//                 >
-//                     Invest <ExpandMoreRounded className="icon" sx={{ transition: 'transform 0.3s' }} />
-//                 </Typography>
-//                 <Box className="content-toggle" sx={{ display: 'grid', gridTemplateRows: '0fr', transition: 'grid-template-rows 0.3s' }}>
-//                     <Box sx={{ overflow: 'hidden', boxShadow: '0px 4px 8px 0px rgba(44, 151, 143, 0.28) inset' }}>
-//                         <Box sx={{ px: 3, py: 2 }}>
-//                             <Box sx={{ display: 'flex', placeItems: 'center' }}>
-//                                 <Typography color={'text.secondary'}>Invested</Typography>
-//                                 <Typography variant="h6" ml={'auto'} mr={1}>
-//                                     1,000
-//                                 </Typography>
-//                                 <Typography variant="h6" fontWeight={400}>
-//                                     MINA
-//                                 </Typography>
-//                             </Box>
-//                             <TextField
-//                                 type="number"
-//                                 name="invest_amount"
-//                                 label="From"
-//                                 value={item.investInput}
-//                                 onChange={(e) => onChange(e.target.value)}
-//                                 InputProps={{ endAdornment: <IconMina /> }}
-//                                 autoFocus={true}
-//                                 fullWidth
-//                                 sx={{ mt: 2 }}
-//                             />
-//                         </Box>
-//                     </Box>
-//                 </Box>
-//             </Box>
-//         </CardProject>
-//     );
-// }

@@ -9,7 +9,8 @@ const initData: TStateDetailProject = {
     avatar: '',
     date: '',
     banner: '',
-
+    totalClaimedAmount: 0,
+    totalFundedAmount: 0,
     overview: {
         description: '',
         documents: [],
