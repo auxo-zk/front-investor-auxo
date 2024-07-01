@@ -75,6 +75,8 @@ export type TProjectDetail = {
     avatar: string;
     banner: string;
     date: string;
+    totalClaimedAmount: number;
+    totalFundedAmount: number;
     overview: TProjectOverview;
 };
 export async function getProjectDetail(projectId: string): Promise<TProjectDetail> {
@@ -84,7 +86,8 @@ export async function getProjectDetail(projectId: string): Promise<TProjectDetai
         avatar: response?.ipfsData?.avatarImage || '',
         banner: response?.ipfsData?.coverImage || '',
         date: new Date().toLocaleDateString(),
-
+        totalClaimedAmount: response?.totalClaimedAmount || 0,
+        totalFundedAmount: response?.totalFundedAmount || 0,
         overview: {
             description: response?.ipfsData?.description || '',
             documents: response?.ipfsData?.documents || [],

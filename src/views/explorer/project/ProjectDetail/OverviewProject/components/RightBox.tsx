@@ -8,7 +8,7 @@ import { useProjectDetailData } from '../../state';
 export default function RightBox() {
     const { overview } = useProjectDetailData();
     return (
-        <Box sx={{ minWidth: '309px', zIndex: -1 }}>
+        <Box sx={{ minWidth: '309px', zIndex: 0 }}>
             <Box sx={{ borderRadius: '12px', bgcolor: 'background.secondary', p: { xs: 2, xsm: 3 }, boxShadow: 3 }}>
                 <Box sx={{ display: 'flex', placeItems: 'baseline', justifyContent: 'space-between' }}>
                     <Typography variant="h6">Documents</Typography>
@@ -22,7 +22,7 @@ export default function RightBox() {
 
                 {overview?.documents?.map((item, index) => {
                     return (
-                        <Box key={index} sx={{ display: 'flex', justifyContent: 'space-between', placeItems: 'center', pt: 3 }}>
+                        <Box component={'a'} href={item.URL} target="_blank" key={index} sx={{ textDecoration: 'none', display: 'flex', justifyContent: 'space-between', placeItems: 'center', pt: 3 }}>
                             <Typography variant="body2" color={'primary.light'} sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                                 {item.fileName}
                             </Typography>
