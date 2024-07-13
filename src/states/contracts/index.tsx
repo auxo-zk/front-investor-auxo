@@ -14,7 +14,7 @@ const initData: TContractData = {
     workerClient: null,
     isInitWorker: true,
     isLoading: false,
-    networkId: NetworkId.AuxoDevNet,
+    networkId: NetworkId.AuxoNetwork,
 };
 
 const committeeContract = atom<TContractData>(initData);
