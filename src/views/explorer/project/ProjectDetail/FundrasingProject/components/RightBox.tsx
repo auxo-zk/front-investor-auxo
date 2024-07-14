@@ -3,6 +3,7 @@ import { Box, Divider, Typography } from '@mui/material';
 import React from 'react';
 import { IconFolder } from 'src/assets/svg/icon';
 import { useProjectDetailData } from '../../state';
+import { formatAddress } from 'src/utils/format';
 
 export default function RightBox() {
     const { fundrasing, selectedCampaignIndex } = useProjectDetailData();
@@ -31,7 +32,7 @@ export default function RightBox() {
                                     sx={{ textDecoration: 'none', display: 'flex', justifyContent: 'space-between', placeItems: 'center', pt: 3 }}
                                 >
                                     <Typography variant="body2" color={'primary.light'}>
-                                        {item.fileName}
+                                        {formatAddress(item.fileName, 6, 12)}
                                     </Typography>
                                     <SaveAltRounded sx={{ color: 'primary.light', cursor: 'pointer' }} fontSize="small" />
                                 </Box>
