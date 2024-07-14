@@ -4,6 +4,7 @@ import React from 'react';
 import { IconFolder } from 'src/assets/svg/icon';
 import StackTeamMember from 'src/components/StackTeamMember/StackTeamMember';
 import { useProjectDetailData } from '../../state';
+import { formatAddress } from 'src/utils/format';
 
 export default function RightBox() {
     const { overview } = useProjectDetailData();
@@ -24,7 +25,7 @@ export default function RightBox() {
                     return (
                         <Box component={'a'} href={item.URL} target="_blank" key={index} sx={{ textDecoration: 'none', display: 'flex', justifyContent: 'space-between', placeItems: 'center', pt: 3 }}>
                             <Typography variant="body2" color={'primary.light'} sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                                {item.fileName}
+                                {formatAddress(item.fileName, 6, 12)}
                             </Typography>
                             <SaveAltRounded sx={{ color: 'primary.light', cursor: 'pointer' }} fontSize="small" />
                         </Box>

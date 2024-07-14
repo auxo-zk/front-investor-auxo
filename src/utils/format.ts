@@ -13,6 +13,9 @@ export function formatAddress(address: string, first = 6, last = 4): string {
     if (first < 0 || last <= 0) {
         throw new Error('Invalid parameter(s)');
     }
+    if (address.length <= first + last) {
+        return address;
+    }
     return address.slice(0, first) + '...' + address.slice(-last);
 }
 
