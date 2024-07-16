@@ -83,7 +83,7 @@ export async function getCampaignOverview(campaignId: string): Promise<TCampaign
         overview: {
             organizer: {
                 address: response?.ownerInfo?.address || '',
-                avatar: response?.ownerInfo?.img?.URL || '',
+                avatar: response?.ownerInfo?.img || '',
                 name: response?.ownerInfo?.name || 'Unnkown Name',
             },
             capacity: response.ipfsData?.capacity || '',
