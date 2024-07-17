@@ -2,6 +2,7 @@ import axios from 'axios';
 import { apiUrl } from '../url';
 import { LocalStorageKey } from 'src/constants';
 import { TFileSaved } from '../type';
+import { Constants } from '@auxo-dev/platform';
 
 export enum KeyProjectInput {
     'solution' = 'solution',
@@ -86,8 +87,8 @@ export async function getProjectDetail(projectId: string): Promise<TProjectDetai
         avatar: response?.ipfsData?.avatarImage || '',
         banner: response?.ipfsData?.coverImage || '',
         date: new Date().toLocaleDateString(),
-        totalClaimedAmount: response?.totalClaimedAmount || 0,
-        totalFundedAmount: response?.totalFundedAmount || 0,
+        totalClaimedAmount: response?.totalClaimedAmount / 10 ** 9 || 0,
+        totalFundedAmount: (response?.totalFundedAmount / 10 ** 9) * Constants.MINIMAL_MINA_UNIT || 0,
         overview: {
             description: response?.ipfsData?.description || '',
             documents: response?.ipfsData?.documents || [],
