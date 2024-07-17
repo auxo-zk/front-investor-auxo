@@ -8,6 +8,7 @@ import { TCampaignDetail } from 'src/services/campaign/api';
 import CampaignOverview from './CampaignOverview/CampaignOverview';
 import { imagePath } from 'src/constants/imagePath';
 import NoData from 'src/components/NoData';
+import CampaignResults from './CampaignResults/CampaignResults';
 
 export default function DetailCampaigns({ data, idCampaign }: { data: TCampaignDetail; idCampaign: string }) {
     return (
@@ -52,7 +53,8 @@ function TabView({ data, idCampaign }: { data: TCampaignDetail; idCampaign: stri
                 </Box>
             ) : (
                 <Box>
-                    <NoData text="No Data" />
+                    <CampaignResults campaignId={idCampaign} />
+                    {/* <NoData text="No Data" /> */}
                 </Box>
             )}
         </>
