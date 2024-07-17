@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { apiUrl } from '../url';
 import { TProjectData } from '../project/api';
+import { Constants } from '@auxo-dev/platform';
 
 export enum CampaignState {
     'UPCOMING',
@@ -110,7 +111,7 @@ export async function getParticipatingProjects(campaignId: string): Promise<TPro
             desc: item.ipfsData?.description || '',
             date: new Date().toLocaleDateString(),
             idProject: item.projectId + '' || '#',
-            totalFundedAmount: item.totalFundedAmount / 10 ** 9,
+            totalFundedAmount: (item.totalFundedAmount / 10 ** 9) * Constants.MINIMAL_MINA_UNIT,
         };
     });
 }
